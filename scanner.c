@@ -11,12 +11,16 @@ extern char* yytext;
 int main(void)
 {
     int ntoken;
-    printf("%s\n", "HELLO");
+    printf("%d\n", ntoken);
     ntoken == yylex();
-    printf("%s\n",yytext);
+    printf("%d\n", yylex());
+    //printf("%s\n",ntoken);
+    //ntoken == yylex();
+    //printf("%s\n",yytext);
     while (ntoken)
     {
         printf("%d\n", ntoken);
+        printf("%d\n", yytext);
         ntoken = yylex();
     }
     return 0;

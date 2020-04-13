@@ -6,7 +6,7 @@
 %%
 
 
-int|float|char|bool|string      return TYPE;
+(int|float|char|bool|string)     return TYPE;
 [1-9][0-9]*                     return INTEGER;
 [0-9]*(.[0-9]+)                 return FLOAT;
 true|false                      return BOOLEAN;
