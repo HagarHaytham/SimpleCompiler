@@ -7,7 +7,9 @@ extern char* yytext;
 
 //char * names [] ={NULL,"type"};
 // 1-handle comments in lexer
-//2- string needs to be adjuted
+//2- string needs to be adjusted
+//3- add operations
+//4- add brackets + colon
 int main(void)
 {
     int ntoken;
