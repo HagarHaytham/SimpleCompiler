@@ -15,4 +15,4 @@
 #define DEFAULT 15 
 #define PRINT 16
 #define SEMICOLON 17
-#define OTHER 8
+#define OTHER 18
