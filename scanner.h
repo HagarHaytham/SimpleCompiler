@@ -5,3 +5,4 @@
 #define CHAR 5
 #define STRING 6
 #define IDENTIFIER 7
+#define OTHER 8

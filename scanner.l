@@ -12,8 +12,8 @@
 true|false                      return BOOLEAN;
 '[a-zA-Z]'                      return CHAR;
 [a-zA-Z][_a-zA-Z0-9]*           return IDENTIFIER;
-[ \t\n]                         ;
-.                               {printf("unexpected character\n");}
+[ \t\n]+                        ;
+.                               {printf("unexpected character\n");return OTHER;}
 
 
 %%

@@ -1,4 +1,1 @@
-int
-ab2
-"rr"
-'f'
+ab2 ab3 ab4 int 'f' float char true false bool string
