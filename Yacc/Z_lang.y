@@ -1,18 +1,26 @@
 %{
-    #include <stdio.h>
-        #include <stdlib.h>
-        #include <stdarg.h>
-        #include "header.h"
-        /* prototypes */
-        nodeType *opr(int oper, int nops, ...);     /* nodes holds operator*/
-        nodeType *id(int i);        /* nodes holds constant*/
-        nodeType *con(int value); /* nodes holds constant*/
-        void freeNode(nodeType *p);
-        int ex(nodeType *p);
+    #include<string>
+    #include<vector>
+    #include "header.h"
+    using namespace std;
+    /* prototypes */
+    nodeType *opr(int oper, int nops, ...);     /* nodes holds operator*/
+    nodeType *id(int i);        /* nodes holds constant*/
+    nodeType *con(int value); /* nodes holds constant*/
+    void freeNode(nodeType *p);
+    int ex(nodeType *p);
     int yylex(void);
     void yyerror(char *);
+    struct data
+    {
+    int int_value;
+    float float_value;
+    char char_value;
+    string string_value;
+    string type;
+    }
 
-    int sym[26];   /* Symbol table allows  for  single-character  variable  names */
+  
 %}
 
 %start program /*start symbol*/
@@ -20,9 +28,10 @@
 /* this like saying both have same type*/
 %union {
     int iValue;        /* integer value */
-    int fValue;        /* float value */
+    float fValue;        /* float value */
     char cValue;       /* character value */
     bool bValue;       /* boolean value */
+    string sValue;
     char sIndex;       /* symbol table index, this is very likly to be changed*/
     nodeType *nPtr;    /* node pointer */
 };
@@ -31,7 +40,8 @@
 %token <fValue> FLOAT
 %token <cValue> CHAR
 %token <bValue> BOOL
-%token <sIndex> VARIABLE
+%token <sIndex> IDENTIFIER
+%token <sValue> STRING
 
 %token WHILE DO FOR SWICH CASE DEFAULT IF PRINT 
 %nonassoc IFX
@@ -40,6 +50,7 @@
 %left GE LE EQ NE '>' '<'
 %left '+' '-'
 %left '*' '/'
+/*   to be reviewed  */
 %left AND OR XOR
 %nonassoc UMINUS NOT
 
@@ -47,7 +58,8 @@
 %nonassoc REDUCE
 
 /* for non-terminal */
-%type <nPtr> stmt expr stmt_list dclr_stmt
+%
+type <nPtr> stmt expr stmt_list dclr_stmt
 %%
 
 /*default action $$ = $1 */
@@ -61,40 +73,52 @@ block:
         ;
         
 stmt:
-          ';'                               { $$ = opr(';', 2, NULL, NULL); }
+          ';'                               
         | expr ';'                          { $$ = $1; }
         | PRINT expr ';'                    { $$ = opr(PRINT, 1, $2); }
         | dclr_stmt
-        | VARIABLE '=' expr ';' %prec REDUCE{ $$ = opr('=', 2, set_id($1), $3); }
-        | WHILE '(' expr ')' stmt           { $$ = opr(WHILE, 2, $3, $5); }
-        | DO stmt WHILE '(' expr ')'';'     { $$ = opr(DO, 2, $2, $5); }
-        | FOR '(' expr ';' expr ';' expr ')' stmt
-        | SWICH CASE DEFAULT
+        | IDENTIFIER '=' expr ';' %prec REDUCE{ $$ = opr('=', 2, set_id($1), $3); }
+        | WHILE '(' logical_expr ')' stmt           { $$ = opr(WHILE, 2, $3, $5); }
+        | DO stmt WHILE '(' logical_expr ')' ';'     { $$ = opr(DO, 2, $2, $5); }
+        | FOR '(' assign_stmt ';' logical_expr ';' arithmatic_expr ')' stmt  
+        											{ $$ = opr(FOR,4,$3,$5,$7,$9);}
+        | FOR '(' for_dclr_stmt ';' logical_expr ';' arithmatic_expr ')' stmt 
+        											{ $$ = opr(FOR,4,$3,$5,$7,$9);}	
+        | SWICH '(' IDENTIFIER ')' ':' case_list DEF
+        											{ $$ = opr(SWICH,3,$3,$6,$7);}					
 
-        | IF '(' expr ')' stmt %prec IFX    { $$ = opr(IF, 2, $3, $5); }
-        | IF '(' expr ')' stmt ELSE stmt    { $$ = opr(IF, 3, $3, $5, $7); }
+        | IF '(' logical_expr ')' stmt %prec IFX    { $$ = opr(IF, 2, $3, $5); }
+        | IF '(' logical_expr ')' stmt ELSE stmt    { $$ = opr(IF, 3, $3, $5, $7); }
         | '{' stmt_list '}'                 { $$ = $2; }
+        | 
         ;
-
+/* missing for and switch */
+DEF:
+		  DEFAULT ':' stmt_list break ';'
+case:
+		  case_keyword expr ':' stmt_list break ';'
+case_list:
+		  case ;
+		| case_list case 
+		;
 stmt_list:
           stmt                  { $$ = $1; }
         | stmt_list stmt        { $$ = opr(';', 2, $1, $2); }
         ;
 
 dclr_stmt: /*** should allocate nodes for variables here ****/
-          TYPE VARIABLE;                { $$ = id($4); }   /* %prec REDUCE */
-        | TYPE VARIABLE '=' expr ';'    { $$ = id($4); }  
+          TYPE IDENTIFIER;                { $$ = id($4); }   /* %prec REDUCE */
+        | TYPE IDENTIFIER '=' expr ';'    { $$ = id($4); }  
         ;
 
 TYPE:
-         INTEGER | FLOAT | CHAR| BOOL ;
-        
-expr:
           INTEGER               { $$ = con($1); } /* should add type here i think*/
         | FLOAT                 { $$ = con($1); }
         | CHAR                  { $$ = con($1); }
         | BOOL                  { $$ = con($1); }
-        | VARIABLE              { $$ = get_id($1); } /* should get value here; get_id not implemented yet */
+        ;
+expr:
+        | IDENTIFIER              { $$ = get_id($1); } /* should get value here; get_id not implemented yet */
         | '-' expr %prec UMINUS { $$ = opr(UMINUS, 1, $2); }
         | expr '+' expr         { $$ = opr('+', 2, $1, $3); }
         | expr '-' expr         { $$ = opr('-', 2, $1, $3); }
@@ -112,7 +136,32 @@ expr:
         | expr XOR expr         { $$ = opr(XOR, 2, $1, $3); }
         | '(' expr ')'          { $$ = $2; }
         ;
-        
+assign_stmt:
+		IDENTIFIER '=' expr ';'    { $$ = id($4); } 
+		; 
+for_dclr_stmt:
+        | TYPE IDENTIFIER '=' expr ';'    { $$ = id($4); }  
+        ;
+arithmatic_expr:
+        | IDENTIFIER '+' IDENTIFIER         { $$ = opr('+', 2, $1, $3); }
+        | IDENTIFIER '-' IDENTIFIER         { $$ = opr('-', 2, $1, $3); }
+        | IDENTIFIER '*' IDENTIFIER         { $$ = opr('*', 2, $1, $3); }
+        | IDENTIFIER '/' IDENTIFIER         { $$ = opr('/', 2, $1, $3); }
+        ;
+logical_expr:
+		  IDENTIFIER
+        | IDENTIFIER '<' IDENTIFIER         { $$ = opr('<', 2, $1, $3); }
+        | IDENTIFIER '>' IDENTIFIER         { $$ = opr('>', 2, $1, $3); }
+        | IDENTIFIER GE IDENTIFIER          { $$ = opr(GE, 2, $1, $3); }
+        | IDENTIFIER LE IDENTIFIER          { $$ = opr(LE, 2, $1, $3); }
+        | IDENTIFIER NE IDENTIFIER          { $$ = opr(NE, 2, $1, $3); }
+        | IDENTIFIER EQ IDENTIFIER          { $$ = opr(EQ, 2, $1, $3); }
+        | NOT IDENTIFIER              		{ $$ = opr(NOT, 1, $2); }
+        | IDENTIFIER OR IDENTIFIER          { $$ = opr(OR, 2, $1, $3); }
+        | IDENTIFIER AND IDENTIFIER         { $$ = opr(AND, 2, $1, $3); }   
+        | IDENTIFIER XOR IDENTIFIER         { $$ = opr(XOR, 2, $1, $3); }
+        ;
+
 %%
 
 /* symbol table implementation */
@@ -209,7 +258,6 @@ void freeNode(nodeType *p) {
 void yyerror(char *s) {
     fprintf(stderr, "%s\n", s);
 }
-
 int main(void) {
     yyparse();
     return 0;
