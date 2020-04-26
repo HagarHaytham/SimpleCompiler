@@ -1,4 +1,4 @@
-#define TYPE 1
+// #define TYPE 1
 #define INTEGER 2
 #define FLOAT 3
 #define BOOLEAN 4

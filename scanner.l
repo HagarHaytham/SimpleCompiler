@@ -5,8 +5,6 @@
 
 %%
 
-
-(int|float|char|bool|string)    return TYPE;
 if                              return IF;
 else                            return ELSE;
 while                           return WHILE;
