@@ -15,4 +15,8 @@
 #define DEFAULT 15 
 #define PRINT 16
 #define SEMICOLON 17
-#define OTHER 8
+#define INT_VALUE 18
+#define FLOAT_VALUE 19
+#define CHAR_VALUE 20
+#define STRING_VALUE 21
+#define OTHER 22
