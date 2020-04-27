@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_SIMPLE_YACC_HPP_INCLUDED
-# define YY_YY_SIMPLE_YACC_HPP_INCLUDED
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -50,20 +50,39 @@ extern int yydebug;
     CHAR = 260,
     STRING = 261,
     SEMICOLON = 262,
-    INT_VALUE = 263,
-    FLOAT_VALUE = 264,
-    CHAR_VALUE = 265,
-    IDENTIFIER = 266,
-    STRING_VALUE = 267
+    EQUAL = 263,
+    PLUS = 264,
+    MINUS = 265,
+    INT_VALUE = 266,
+    FLOAT_VALUE = 267,
+    CHAR_VALUE = 268,
+    IDENTIFIER = 269,
+    STRING_VALUE = 270,
+    REDUCE = 271
   };
 #endif
+/* Tokens.  */
+#define INTEGER 258
+#define FLOAT 259
+#define CHAR 260
+#define STRING 261
+#define SEMICOLON 262
+#define EQUAL 263
+#define PLUS 264
+#define MINUS 265
+#define INT_VALUE 266
+#define FLOAT_VALUE 267
+#define CHAR_VALUE 268
+#define IDENTIFIER 269
+#define STRING_VALUE 270
+#define REDUCE 271
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 12 "tmp.y" /* yacc.c:1909  */
+#line 8 "y.y" /* yacc.c:1909  */
 
     int iValue;        /* integer value */
     float fValue;        /* float value */
@@ -71,7 +90,7 @@ union YYSTYPE
     char* sValue;
     int sIndex;       /* symbol table index, this is very likly to be changed*/
 
-#line 75 "simple_yacc.hpp" /* yacc.c:1909  */
+#line 94 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -84,4 +103,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_SIMPLE_YACC_HPP_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
