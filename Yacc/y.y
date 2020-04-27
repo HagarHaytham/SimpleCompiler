@@ -1,8 +1,9 @@
 %{
     #include <stdio.h>
-
     int yylex(void);
+    
     void yyerror(char *);
+    
 %}
 %start program
 %union {
@@ -78,7 +79,7 @@ string_assign_stmt:
     ; 
 
 int_expr:
-        INT_VALUE                           { $$ = $1;   }
+        INT_VALUE                           {}
         | int_expr PLUS int_expr            { $$ = $1 + $3; }
         | int_expr MINUS int_expr           { $$ = $1 - $3; }
         ;
