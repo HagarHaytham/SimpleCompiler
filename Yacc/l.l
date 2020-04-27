@@ -22,12 +22,14 @@ string                          return STRING;
                                     yylval.cValue = yytext[0];
                                     return CHAR_VALUE;
                                 } 
-["][a-zA-Z0-9]*["]              {  printf("string\n");
-                                    yylval.sValue = yytext;
+["][a-zA-Z0-9]*["]              {   printf(yytext);
                                     return STRING_VALUE;
                                 } 
-[a-zA-Z][a-zA-Z0-9]*            { printf("WORD\n"); return IDENTIFIER;  } 
-;                               { printf("SEMICOLON\n"); return SEMICOLON;}
+[a-zA-Z][a-zA-Z0-9]*            {   printf("IDENTIFIER\n");
+                                    yylval.sValue = yytext;
+                                    return IDENTIFIER;  
+                                } 
+;                               {  return SEMICOLON;}
 =                               { printf("EQUAL\n"); return EQUAL;}
 [+]                             {printf("plus\n"); return PLUS;}
 [-]                             {printf("minus\n"); return MINUS;}                               

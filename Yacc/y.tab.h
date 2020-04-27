@@ -82,15 +82,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 9 "y.y" /* yacc.c:1909  */
+#line 8 "y.y" /* yacc.c:1909  */
 
     int iValue;        /* integer value */
     float fValue;        /* float value */
     char cValue;       /* character value */
     char* sValue;
-    int sIndex;       /* symbol table index, this is very likly to be changed*/
 
-#line 94 "y.tab.h" /* yacc.c:1909  */
+#line 93 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

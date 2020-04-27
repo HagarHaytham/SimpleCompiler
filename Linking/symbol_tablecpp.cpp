@@ -17,7 +17,7 @@ struct data
 };
 map<char*,struct data>sym; 
 map<char*,int>created;   
-int create_int(char* name, int type, int assign, int value)
+int create_int(int name, int type, int assign, int value)
 {
         if(created[name] == 0)
             return false;

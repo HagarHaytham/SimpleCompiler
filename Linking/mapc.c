@@ -6,7 +6,6 @@ int main(int argc, char **argv)
 {
     add(1,3);
     printf("%d\n",val(1));  
-
     return 0;
 }
 

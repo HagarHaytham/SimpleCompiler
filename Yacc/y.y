@@ -1,9 +1,8 @@
 %{
     #include <stdio.h>
+    #include "symbol_table.h"
     int yylex(void);
-    
     void yyerror(char *);
-    
 %}
 %start program
 %union {
@@ -11,7 +10,6 @@
     float fValue;        /* float value */
     char cValue;       /* character value */
     char* sValue;
-    int sIndex;       /* symbol table index, this is very likly to be changed*/
 };
 %left '+' '-'
 %left '*' '/'
@@ -26,60 +24,40 @@
 %token <iValue> INT_VALUE
 %token <fValue> FLOAT_VALUE
 %token <cValue> CHAR_VALUE
-%token <sIndex> IDENTIFIER
+%token <sValue> IDENTIFIER
 %token <sValue> STRING_VALUE
 %type <iValue> int_expr
 %type <fValue> float_expr
 %nonassoc REDUCE
 %%
 program:
-        program statement
+        program stmt   '\n'
         | 
         ;
-statement:
-    int_expr 
-    | float_expr
-    | int_dclr_stmt
-    | float_dclr_stmt
-    | char_dclr_stmt
-    | string_dclr_stmt
-    | int_assign_stmt
-    | float_assign_stmt
-    | char_assign_stmt
-    | string_assign_stmt
-    ;
-int_dclr_stmt:
-    INTEGER IDENTIFIER SEMICOLON                   
-    | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON
-    ;
-float_dclr_stmt:
-    FLOAT IDENTIFIER SEMICOLON
-    | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON
-    ;  
-char_dclr_stmt:
-    CHAR IDENTIFIER SEMICOLON
-    | CHAR IDENTIFIER EQUAL CHAR_VALUE SEMICOLON  
-    ;  
-string_dclr_stmt:
-    STRING IDENTIFIER SEMICOLON
-    | STRING IDENTIFIER EQUAL STRING_VALUE SEMICOLON
-    ; 
+stmt:  
+    INTEGER IDENTIFIER SEMICOLON               { printf("%s\n", $2); create_int($2,0,0); }             
+    | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON  
 
-int_assign_stmt:
-     IDENTIFIER EQUAL int_expr SEMICOLON                   
-    ;
-float_assign_stmt:
-    IDENTIFIER EQUAL float_expr SEMICOLON
-    ;  
-char_assign_stmt:
-    IDENTIFIER EQUAL CHAR_VALUE SEMICOLON      
-    ;  
-string_assign_stmt:
-    IDENTIFIER EQUAL STRING_VALUE SEMICOLON    
+    | FLOAT IDENTIFIER SEMICOLON
+    | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON
+
+    | CHAR IDENTIFIER SEMICOLON
+    | CHAR IDENTIFIER EQUAL CHAR_VALUE SEMICOLON  
+
+    | STRING IDENTIFIER SEMICOLON
+    | STRING IDENTIFIER EQUAL STRING_VALUE SEMICOLON
+
+    | IDENTIFIER EQUAL int_expr SEMICOLON                   
+
+    | IDENTIFIER EQUAL float_expr SEMICOLON
+
+    | IDENTIFIER EQUAL CHAR_VALUE SEMICOLON      
+
+    | IDENTIFIER EQUAL STRING_VALUE SEMICOLON    
     ; 
 
 int_expr:
-        INT_VALUE                           {}
+        INT_VALUE                           { $$ = $1;      }
         | int_expr PLUS int_expr            { $$ = $1 + $3; }
         | int_expr MINUS int_expr           { $$ = $1 - $3; }
         ;
