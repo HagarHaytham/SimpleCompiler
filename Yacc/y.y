@@ -28,38 +28,114 @@
 %token <sValue> STRING_VALUE
 %type <iValue> int_expr
 %type <fValue> float_expr
+%type <fValue> id_expr
 %nonassoc REDUCE
 %%
-program:
-        program stmt   '\n'
-        | 
-        ;
-stmt:  
-    INTEGER IDENTIFIER SEMICOLON               { printf("%s\n", $2); create_int($2,0,0); }             
-    | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON  
+program:    program stmt
+          | stmt
+          ;
 
-    | FLOAT IDENTIFIER SEMICOLON
-    | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON
+stmt: 
+    int_dclr_stmt
+    | string_dclr_stmt
+    | float_dclr_stmt
+    | char_dclr_stmt
+    | int_assign_stmt
+    | float_assign_stmt
+    | char_assign_stmt
+    | string_assign_stmt
+    | id_assign_stmt
+    ;
+int_dclr_stmt:
 
-    | CHAR IDENTIFIER SEMICOLON
-    | CHAR IDENTIFIER EQUAL CHAR_VALUE SEMICOLON  
+    INTEGER IDENTIFIER SEMICOLON                    { int res=create_int($2,0,0); 
+                                                      if(res == 0)
+                                                      yyerror("Identifier already exists");
+                                                      print_table();
+                                                    }           
+    | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON   { int res=create_int($2,1,$4);
+                                                      if(res == 0)
+                                                      yyerror("Identifier already exists");
+                                                      print_table();
+                                                     }
+    | INTEGER IDENTIFIER EQUAL id_expr SEMICOLON    {
+                                                      int res=create_int($2,1,$4); 
+                                                      print_table();
+                                                      if(res == 0)
+                                                      yyerror("Identifier already exists");
+                                                     }
+    ;
+float_dclr_stmt:
+     FLOAT IDENTIFIER SEMICOLON                    {create_float($2,0,.0);}
+    | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON   {create_float($2,1,$4);}
+    | FLOAT IDENTIFIER EQUAL id_expr SEMICOLON   {create_float($2,1,$4);}
+    
+    ;
+char_dclr_stmt:
+     CHAR IDENTIFIER SEMICOLON                     {create_char($2,0,'0');}
+    | CHAR IDENTIFIER EQUAL CHAR_VALUE SEMICOLON    {create_char($2,1,$4);}
+    | CHAR IDENTIFIER EQUAL id_VALUE SEMICOLON    {create_char($2,1,$4);}
+    ;
+string_dclr_stmt:
+     STRING IDENTIFIER SEMICOLON                       {create_string($2,0,"0");}
+    | STRING IDENTIFIER EQUAL STRING_VALUE SEMICOLON    {create_string($2,1,$4);}
+    | STRING IDENTIFIER EQUAL id_VALUE SEMICOLON    {create_string($2,1,$4);}
 
-    | STRING IDENTIFIER SEMICOLON
-    | STRING IDENTIFIER EQUAL STRING_VALUE SEMICOLON
+    ;
+int_assign_stmt:
+     IDENTIFIER EQUAL int_expr SEMICOLON               { assign_int($1,$3); }
+    ;
+float_assign_stmt:
+     IDENTIFIER EQUAL float_expr SEMICOLON             { assign_float($1,$3); }
+    ;
+char_assign_stmt:
+     IDENTIFIER EQUAL CHAR_VALUE SEMICOLON             { assign_char($1,$3);  }
+    ;
+string_assign_stmt:
+     IDENTIFIER EQUAL STRING_VALUE SEMICOLON           { assign_string($1,$3); }
+    ;
+id_assign_stmt:
+     IDENTIFIER EQUAL id_expr SEMICOLON                { char* msg=assign_value($1,$3); 
+    ;                                                     if(msg !="")
+                                                          yyerror(msg);
+                                                       }
 
-    | IDENTIFIER EQUAL int_expr SEMICOLON                   
+id_expr:
+      IDENTIFIER                    { int x = 0; 
+                                      float val = get_value($1,x);
+                                      if(x == -1)
+                                        yyerror("ERROR evaluating expression ");
+                                      else
+                                      $$ = val;
+                                      }
+    | IDENTIFIER PLUS IDENTIFIER    {
+                                    int x = 0;
+                                    int y = 0;
+                                     float val1 = get_value($1,x);
 
-    | IDENTIFIER EQUAL float_expr SEMICOLON
-
-    | IDENTIFIER EQUAL CHAR_VALUE SEMICOLON      
-
-    | IDENTIFIER EQUAL STRING_VALUE SEMICOLON    
-    ; 
-
+                                    float val2 = get_value($3,y);
+                                    if(x == -1 || y == -1)
+                                        $$ = val1 + val2 ;
+                                    else
+                                        yyerror("ERROR evaluating expression ");
+                                   }
+    | IDENTIFIER MINUS IDENTIFIER { 
+                                    int x = 0;
+                                    int y = 0;
+                                    float val1 = get_value($1,x);
+                                    float val2 = get_value($3,y);
+                                    if(x == -1 || y == -1)
+                                        $$ = val1 - val2 ;
+                                    else
+                                        yyerror("ERROR evaluating expression ");
+                                   }
+    ;
 int_expr:
+
         INT_VALUE                           { $$ = $1;      }
         | int_expr PLUS int_expr            { $$ = $1 + $3; }
         | int_expr MINUS int_expr           { $$ = $1 - $3; }
+
         ;
 float_expr: 
         FLOAT_VALUE                         { $$ = $1;      }
@@ -74,7 +150,8 @@ float_expr:
         ;
 %%
 void yyerror(char *s) {
-    fprintf(stderr, "%s\n", "aaaaaa");
+    fprintf(stderr, "%s\n",s);
+    printf("aaaaaa");
 }
 int main(void) {
     yyparse();
