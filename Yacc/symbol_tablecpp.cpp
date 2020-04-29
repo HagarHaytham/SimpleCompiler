@@ -26,8 +26,10 @@ void write_quadruple(string to_print,string split)
     file <<to_print<<split;
     file.close();
 }
-int create_int(char* name, int assign, int value)
+int create_int(char* name, int assign, int value, int flag)
 {
+        if(flag == 0)
+        {
         write_quadruple("CREATE"," ");
         if(assign)
         {
@@ -40,6 +42,7 @@ int create_int(char* name, int assign, int value)
             write_quadruple("-"," ");
 
         }
+        }        
         write_quadruple(name,"\n");
         
         std::string str = name;
@@ -53,15 +56,15 @@ int create_int(char* name, int assign, int value)
         sym[str] = d;
         return 1;
  }
-int create_float(char* name, int assign, float value)
+int create_float(char* name, int assign, float value,int flag)
 {
-
+    if(flag == 0)
+    {
     write_quadruple("CREATE"," ");
     if(assign)
     {
         write_quadruple("-"," ");
         write_quadruple(to_string(value)," ");
-
     }
     else
     {
@@ -69,7 +72,9 @@ int create_float(char* name, int assign, float value)
         write_quadruple("-"," ");
 
     }
+    }      
     write_quadruple(name,"\n");
+
     std::string str = name;
     if(created[str])
         return 0;
@@ -83,10 +88,10 @@ int create_float(char* name, int assign, float value)
 }
 int create_char(char* name, int assign, char value)
 {
+
     write_quadruple("CREATE"," ");
     string tmp = "";
     tmp += value;
-
     if(assign)
     {
         write_quadruple("-"," ");
@@ -99,6 +104,7 @@ int create_char(char* name, int assign, char value)
         write_quadruple("-"," ");
 
     }
+    
     write_quadruple(name,"\n");
     std::string str = name;
     if(created[str])
@@ -114,7 +120,6 @@ int create_char(char* name, int assign, char value)
 int create_string(char* name, int assign, char* value)
 {
     write_quadruple("CREATE"," ");
-
     if(assign)
     {
         write_quadruple("-"," ");
@@ -169,6 +174,7 @@ int assign_float(char* name, float val)
 }
 int assign_char(char* name, char val)
 {
+    
     write_quadruple("MOVE"," ");
     write_quadruple("-"," ");
     string tmp = "";
@@ -184,6 +190,7 @@ int assign_char(char* name, char val)
 }
 int assign_string(char* name, char* val)
 {
+    
     write_quadruple("MOVE"," ");
     write_quadruple("-"," ");
     write_quadruple(val," ");
@@ -221,11 +228,65 @@ float get_value(char* name,int &flag)
         return sym[str].float_value;
     }
 }
+char get_value_c(char* name, int& flag)
+{
+
+    write_quadruple(name," ");
+    std::string str = name;
+    if(!created[str])
+    {
+    flag = -1;
+    return NULL;
+    }
+    if(!sym[str].assigned)
+    {
+        flag = -1;
+        return NULL;
+    }
+    if(sym[str].type != CHAR)
+    {
+        flag = -1;
+        return NULL;
+    }
+    else
+    {
+        flag = 1;
+        return sym[str].char_value;
+    }
+    
+    
+
+}
+char* get_value_s(char* name, int& flag)
+{
+    write_quadruple(name," ");
+    std::string str = name;
+    if(!created[str])
+    {
+    flag = -1;
+    return NULL;
+    }
+    if(!sym[str].assigned)
+    {
+        flag = -1;
+        return NULL;
+    }
+    if(sym[str].type != STRING)
+    {
+        flag = -1;
+        return NULL;
+    }
+    else
+    {
+        flag = 1;
+        return sym[name].string_value;
+    }
+    
+}
 int assign_value(char* name , float value)
 {
     write_quadruple(name,"\n");
     std::string str = name;
-    cout<<value<<endl;
     if(!created[str])
         return -1;
     if(sym[str].type == INTEGER)

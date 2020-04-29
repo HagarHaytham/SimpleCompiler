@@ -6,8 +6,8 @@ extern "C" {
 #endif
     void print_operation(char* operation);
     float get_value(char* name, int &flag); 
-    int create_int(char* name, int  assign, int value);
-    int create_float(char* name, int assign, float value);
+    int create_int(char* name, int  assign, int value,int flag);
+    int create_float(char* name, int assign, float value,int flag);
     int create_char(char* name, int assign, char value);
     int create_string(char* name, int assign, char* value);
     int assign_int(char* name, int val);
@@ -16,6 +16,8 @@ extern "C" {
     int assign_string(char* name, char* val);
     int assign_value(char* name,float val);
     void print_table();
+    char get_value_c(char* name, int& flag);
+    char* get_value_s(char* name, int& flag);
 #ifdef __cplusplus
     }
 #endif

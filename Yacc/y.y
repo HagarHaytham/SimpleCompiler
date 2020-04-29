@@ -51,19 +51,19 @@ stmt:
 int_dclr_stmt:
 
     INTEGER IDENTIFIER SEMICOLON                    {   
-                                                        int res=create_int($2,0,0); 
+                                                        int res=create_int($2,0,0,0); 
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
                                                       print_table();
                                                     }           
     | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON   { 
-                                                        int res=create_int($2,1,$4);
+                                                        int res=create_int($2,1,$4,0);
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
                                                       print_table();
                                                      }
     | INTEGER IDENTIFIER EQUAL id_expr SEMICOLON    { 
-                                                      int res=create_int($2,1,$4); 
+                                                      int res=create_int($2,1,$4,1); 
                                                       print_table();
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
@@ -72,17 +72,18 @@ int_dclr_stmt:
 float_dclr_stmt:
      FLOAT IDENTIFIER SEMICOLON                    {
                                                      
-                                                    float res = create_float($2,0,.0);
+                                                    float res = create_float($2,0,0,0);
                                                     if (res == 0)
                                                         yyerror("Identifier already exists");
                                                     }
     | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON   {
-                                                    int res = create_float($2,1,$4);
+                                                    int res = create_float($2,1,$4,0);
                                                     if (res == 0)
                                                         yyerror("Identifier already exists");}
     | FLOAT IDENTIFIER EQUAL id_expr SEMICOLON   {  
-                                                    int res = create_float($2,1,$4);
+                                                    int res = create_float($2,1,$4,1);
                                                     if (res == 0)
+                                
                                                         yyerror("Identifier already exists");}
     
     ;
@@ -105,6 +106,7 @@ string_dclr_stmt:
     | STRING IDENTIFIER EQUAL STRING_VALUE SEMICOLON    { int res = create_string($2,1,$4);
                                                         if (res == 0)
                                                         yyerror("Identifier already exists");}
+
     ;
 int_assign_stmt:
      IDENTIFIER EQUAL int_expr SEMICOLON               {
@@ -132,6 +134,7 @@ string_assign_stmt:
                                                         int res = assign_string($1,$3); 
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier");}
+    
     ;
 id_assign_stmt:
      IDENTIFIER EQUAL id_expr SEMICOLON                { 
@@ -173,6 +176,7 @@ id_expr:
                                         yyerror("INVALID EXPRESSION");
                                    }
     ;
+        
 int_expr:
 
         INT_VALUE                           { $$ = $1;      }
@@ -220,10 +224,10 @@ void prep_file(char* file_name)
     fclose(TMP);
 }
 int main(void) {
-    remove("./quad.txt");
+    //remove("./quad.txt");
     extern FILE *yyin;
     extern FILE *yyout;
-    prep_file("./test.txt");
+    prep_file("./test3.txt");
     FILE * FP = fopen("./tmp.txt","r");
     yyin = FP;
     yyparse();
