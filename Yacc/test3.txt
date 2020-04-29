@@ -8,6 +8,7 @@ l = x - n ;
 z = x - y ;
 int k ;
 int j ;
+x = j ;
 k = x ;
 j = y ;
 tmp = l ;

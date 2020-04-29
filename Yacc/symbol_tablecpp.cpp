@@ -30,7 +30,7 @@ int create_int(char* name, int assign, int value, int flag)
 {
         if(flag == 0)
         {
-        write_quadruple("CREATE"," ");
+        write_quadruple("MOV"," ");
         if(assign)
         {
             write_quadruple("-"," ");
@@ -60,7 +60,7 @@ int create_float(char* name, int assign, float value,int flag)
 {
     if(flag == 0)
     {
-    write_quadruple("CREATE"," ");
+    write_quadruple("MOV"," ");
     if(assign)
     {
         write_quadruple("-"," ");
@@ -89,7 +89,7 @@ int create_float(char* name, int assign, float value,int flag)
 int create_char(char* name, int assign, char value)
 {
 
-    write_quadruple("CREATE"," ");
+    write_quadruple("MOV"," ");
     string tmp = "";
     tmp += value;
     if(assign)
@@ -119,7 +119,7 @@ int create_char(char* name, int assign, char value)
 }
 int create_string(char* name, int assign, char* value)
 {
-    write_quadruple("CREATE"," ");
+    write_quadruple("MOV"," ");
     if(assign)
     {
         write_quadruple("-"," ");
@@ -146,7 +146,7 @@ int create_string(char* name, int assign, char* value)
 }
 int assign_int(char* name, int val)
 {
-    write_quadruple("MOVE"," ");
+    write_quadruple("MOV"," ");
     write_quadruple("-"," ");
     write_quadruple(to_string(val)," ");
     write_quadruple(name,"\n");
@@ -160,7 +160,7 @@ int assign_int(char* name, int val)
 }
 int assign_float(char* name, float val)
 {
-    write_quadruple("MOVE"," ");
+    write_quadruple("MOV"," ");
     write_quadruple("-"," ");
     write_quadruple(to_string(val)," ");
     write_quadruple(name,"\n");
@@ -175,7 +175,7 @@ int assign_float(char* name, float val)
 int assign_char(char* name, char val)
 {
     
-    write_quadruple("MOVE"," ");
+    write_quadruple("MOV"," ");
     write_quadruple("-"," ");
     string tmp = "";
     tmp += val;
@@ -191,7 +191,7 @@ int assign_char(char* name, char val)
 int assign_string(char* name, char* val)
 {
     
-    write_quadruple("MOVE"," ");
+    write_quadruple("MOV"," ");
     write_quadruple("-"," ");
     write_quadruple(val," ");
     write_quadruple(name,"\n");

@@ -1,57 +1,14 @@
-CREATE - 5 x
-CREATE - 2 y
+
+MOV - 5 x
+MOV - 2 y
 ADD x y z
-CREATE - 2.500000 n
-CREATE - 15.000000 m
-CREATE - - l
+MOV - 2.500000 n
+MOV - 15.000000 m
+MOV - - l
 SUB m n l
 SUB x y z
-CREATE - - k
-CREATE - - j
-MOVE x k
-MOVE y j
-MOVE l tmp
-CREATE - 5 x
-CREATE - 2 y
-ADD x y z
-CREATE - 2.500000 n
-CREATE - 15.000000 m
-CREATE - - l
-SUB m n l
-SUB x y z
-CREATE - - k
-CREATE - - j
-MOVE x k
-MOVE y j
-MOVE l tmp
-CREATE - 5 x
-CREATE - 2 y
-ADD x y z
-CREATE - 2.500000 n
-CREATE - 15.000000 m
-CREATE - - l
-CREATE - 5 x
-CREATE - 2 y
-ADD x y z
-CREATE - 2.500000 n
-CREATE - 15.000000 m
-CREATE - - l
-SUB x n l
-SUB x y z
-CREATE - - k
-CREATE - - j
-MOVE x k
-MOVE y j
-MOVE l tmp
-CREATE - 5 x
-CREATE - 2 y
-ADD x y z
-CREATE - 2.500000 n
-CREATE - 15.000000 m
-CREATE - - l
-SUB x n l
-SUB x y z
-CREATE - - k
-CREATE - - j
-MOVE x k
-MOVE y j
+MOV - - k
+MOV - - j
+MOV x k
+MOV y j
+MOV l tmp

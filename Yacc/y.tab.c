@@ -1443,7 +1443,7 @@ yyreduce:
 
   case 28:
 #line 149 "y.y" /* yacc.c:1646  */
-    { print_operation("MOVE");
+    { print_operation("MOV");
                                       int x = 0; 
                                       float val = get_value((yyvsp[0].sValue),x);
                                       if(x == -1)
@@ -1779,7 +1779,7 @@ yyreturn:
 void yyerror(char *s) {
     fprintf(stderr, "%s\n",s);
     //removing the quadruples file in case of a syntax error.
-    //remove("./quad.txt");
+    //reMOV("./quad.txt");
     exit(0);
 }
 void prep_file(char* file_name)
@@ -1803,11 +1803,12 @@ void prep_file(char* file_name)
 	fclose(FP);
     fclose(TMP);
 }
-int main(void) {
+int main(int argc, char** argv) {
     //remove("./quad.txt");
     extern FILE *yyin;
     extern FILE *yyout;
-    prep_file("./test3.txt");
+    prep_file(argv[1]);
+    //preprocessing for the file.
     FILE * FP = fopen("./tmp.txt","r");
     yyin = FP;
     yyparse();

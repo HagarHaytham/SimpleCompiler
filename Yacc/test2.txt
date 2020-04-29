@@ -1,6 +1,6 @@
 string tmp1 = "hello" ;
 string tmp2 ;
-tmp2 = "world!" ;
+tmp2 = "world" ;
 char a = 'a' ;
 char b ;
 b = 'b' ;

@@ -146,7 +146,7 @@ id_assign_stmt:
                                                             yyerror("TYPE NOT SUPPORTED");
                                                        }
 id_expr:
-      IDENTIFIER                    { print_operation("MOVE");
+      IDENTIFIER                    { print_operation("MOV");
                                       int x = 0; 
                                       float val = get_value($1,x);
                                       if(x == -1)
@@ -199,7 +199,7 @@ float_expr:
 void yyerror(char *s) {
     fprintf(stderr, "%s\n",s);
     //removing the quadruples file in case of a syntax error.
-    //remove("./quad.txt");
+    //reMOV("./quad.txt");
     exit(0);
 }
 void prep_file(char* file_name)
@@ -223,11 +223,12 @@ void prep_file(char* file_name)
 	fclose(FP);
     fclose(TMP);
 }
-int main(void) {
+int main(int argc, char** argv) {
     //remove("./quad.txt");
     extern FILE *yyin;
     extern FILE *yyout;
-    prep_file("./test3.txt");
+    prep_file(argv[1]);
+    //preprocessing for the file.
     FILE * FP = fopen("./tmp.txt","r");
     yyin = FP;
     yyparse();
