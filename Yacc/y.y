@@ -50,19 +50,19 @@ stmt:
     ;
 int_dclr_stmt:
 
-    INTEGER IDENTIFIER SEMICOLON                    {   write_quadruple("CREATE","-","-",$2);
+    INTEGER IDENTIFIER SEMICOLON                    {   
                                                         int res=create_int($2,0,0); 
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
                                                       print_table();
                                                     }           
-    | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON   { write_quadruple("CREATE","-","-",$2);
+    | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON   { 
                                                         int res=create_int($2,1,$4);
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
                                                       print_table();
                                                      }
-    | INTEGER IDENTIFIER EQUAL id_expr SEMICOLON    { write_quadruple("CREATE","-","-",$2);
+    | INTEGER IDENTIFIER EQUAL id_expr SEMICOLON    { 
                                                       int res=create_int($2,1,$4); 
                                                       print_table();
                                                       if(res == 0)
@@ -71,34 +71,34 @@ int_dclr_stmt:
     ;
 float_dclr_stmt:
      FLOAT IDENTIFIER SEMICOLON                    {
-                                                    write_quadruple("CREATE","-","-",$2); 
+                                                     
                                                     float res = create_float($2,0,.0);
                                                     if (res == 0)
                                                         yyerror("Identifier already exists");
                                                     }
-    | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON   {write_quadruple("CREATE","-","-",$2);
+    | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON   {
                                                     int res = create_float($2,1,$4);
                                                     if (res == 0)
                                                         yyerror("Identifier already exists");}
-    | FLOAT IDENTIFIER EQUAL id_expr SEMICOLON   {write_quadruple("CREATE","-","-",$2);
+    | FLOAT IDENTIFIER EQUAL id_expr SEMICOLON   {  
                                                     int res = create_float($2,1,$4);
                                                     if (res == 0)
                                                         yyerror("Identifier already exists");}
     
     ;
 char_dclr_stmt:
-     CHAR IDENTIFIER SEMICOLON                     { write_quadruple("CREATE","-","-",$2);
+     CHAR IDENTIFIER SEMICOLON                     { 
                                                         int res =create_char($2,0,'0');
                                                         if (res == 0)
                                                         yyerror("Identifier already exists");}
     | CHAR IDENTIFIER EQUAL CHAR_VALUE SEMICOLON    { 
-                                                        write_quadruple("CREATE","-",$4,$2);
+                                                        
                                                         int res = create_char($2,1,$4);
                                                         if (res == 0)
                                                         yyerror("Identifier already exists");}
     ;
 string_dclr_stmt:
-     STRING IDENTIFIER SEMICOLON                       {write_quadruple("CREATE","-","-",$2);
+     STRING IDENTIFIER SEMICOLON                       {
                                                         int res =create_string($2,0,"0");
                                                         if (res == 0)
                                                         yyerror("Identifier already exists");}
@@ -108,33 +108,34 @@ string_dclr_stmt:
     ;
 int_assign_stmt:
      IDENTIFIER EQUAL int_expr SEMICOLON               {
-                                                        write_quadruple("MOVE","-",$3,$1); 
+                                                         
                                                         int res = assign_int($1,$3); 
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier");}
     ;
 float_assign_stmt:
-     IDENTIFIER EQUAL float_expr SEMICOLON             {write_quadruple("MOVE","-",$3,$1);
+     IDENTIFIER EQUAL float_expr SEMICOLON             {
                                                          int res = assign_float($1,$3);
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier"); }
     ;
 char_assign_stmt:
      IDENTIFIER EQUAL CHAR_VALUE SEMICOLON             {
-                                                        write_quadruple("MOVE","-",$3,$1); 
+                                                        
                                                         int res = assign_char($1,$3);  
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier");}
     ;
 string_assign_stmt:
      IDENTIFIER EQUAL STRING_VALUE SEMICOLON           {
-                                                        write_quadruple("MOVE","-",$3,$1); 
+                                                        
                                                         int res = assign_string($1,$3); 
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier");}
     ;
 id_assign_stmt:
-     IDENTIFIER EQUAL id_expr SEMICOLON                { write_quadruple("MOVE","-",$3,$1); 
+     IDENTIFIER EQUAL id_expr SEMICOLON                { 
+                                                         
                                                         int msg=assign_value($1,$3); 
     ;                                                     if(msg == -1)
                                                             yyerror("UNKNOWN IDENTIFIER");
@@ -142,7 +143,8 @@ id_assign_stmt:
                                                             yyerror("TYPE NOT SUPPORTED");
                                                        }
 id_expr:
-      IDENTIFIER                    { int x = 0; 
+      IDENTIFIER                    { print_operation("MOVE");
+                                      int x = 0; 
                                       float val = get_value($1,x);
                                       if(x == -1)
                                       yyerror("INVALID EXPRESSION");
@@ -150,6 +152,7 @@ id_expr:
                                       $$ = val;
                                     }
     | IDENTIFIER PLUS IDENTIFIER    {
+                                    print_operation("ADD");
                                     int x = 0;
                                     int y = 0;
                                     float val1 = get_value($1,x);
@@ -159,7 +162,7 @@ id_expr:
                                     else
                                         yyerror("INVALID EXPRESSION");
                                    }
-    | IDENTIFIER MINUS IDENTIFIER { 
+    | IDENTIFIER MINUS IDENTIFIER { print_operation("SUB");
                                     int x = 0;
                                     int y = 0;
                                     float val1 = get_value($1,x);
@@ -191,6 +194,8 @@ float_expr:
 %%
 void yyerror(char *s) {
     fprintf(stderr, "%s\n",s);
+    //removing the quadruples file in case of a syntax error.
+    //remove("./quad.txt");
     exit(0);
 }
 void prep_file(char* file_name)
@@ -215,7 +220,7 @@ void prep_file(char* file_name)
     fclose(TMP);
 }
 int main(void) {
-
+    remove("./quad.txt");
     extern FILE *yyin;
     extern FILE *yyout;
     prep_file("./test.txt");

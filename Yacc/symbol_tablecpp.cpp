@@ -19,16 +19,29 @@ struct data
 map<std::string,struct data>sym; 
 map<std::string,int>created; 
 ofstream file;
-void write_quadruple(char* op , char* src1, char* src2 , char* dest)
+void write_quadruple(string to_print,string split)
 {
 
     file.open("quad.txt",std::ios::app);
-    file << op << " "<<src1<<" "<<src2<<" "<<dest<<"\n";
+    file <<to_print<<split;
     file.close();
 }
 int create_int(char* name, int assign, int value)
 {
-         
+        write_quadruple("CREATE"," ");
+        if(assign)
+        {
+            write_quadruple("-"," ");
+            write_quadruple(to_string(value)," ");
+        }
+        else
+        {
+            write_quadruple("-"," ");
+            write_quadruple("-"," ");
+
+        }
+        write_quadruple(name,"\n");
+        
         std::string str = name;
         if(created[str])
             return 0;
@@ -42,6 +55,21 @@ int create_int(char* name, int assign, int value)
  }
 int create_float(char* name, int assign, float value)
 {
+
+    write_quadruple("CREATE"," ");
+    if(assign)
+    {
+        write_quadruple("-"," ");
+        write_quadruple(to_string(value)," ");
+
+    }
+    else
+    {
+        write_quadruple("-"," ");
+        write_quadruple("-"," ");
+
+    }
+    write_quadruple(name,"\n");
     std::string str = name;
     if(created[str])
         return 0;
@@ -55,6 +83,23 @@ int create_float(char* name, int assign, float value)
 }
 int create_char(char* name, int assign, char value)
 {
+    write_quadruple("CREATE"," ");
+    string tmp = "";
+    tmp += value;
+
+    if(assign)
+    {
+        write_quadruple("-"," ");
+        write_quadruple(tmp," ");
+
+    }
+    else
+    {
+        write_quadruple("-"," ");
+        write_quadruple("-"," ");
+
+    }
+    write_quadruple(name,"\n");
     std::string str = name;
     if(created[str])
         return false;
@@ -68,6 +113,21 @@ int create_char(char* name, int assign, char value)
 }
 int create_string(char* name, int assign, char* value)
 {
+    write_quadruple("CREATE"," ");
+
+    if(assign)
+    {
+        write_quadruple("-"," ");
+        write_quadruple(value," ");
+
+    }
+    else
+    {
+        write_quadruple("-"," ");
+        write_quadruple("-"," ");
+
+    }
+    write_quadruple(name,"\n");
     std::string str = name;
     if(created[str])
         return 0;
@@ -81,8 +141,10 @@ int create_string(char* name, int assign, char* value)
 }
 int assign_int(char* name, int val)
 {
-
-    cout<<"HERE"<<val<<endl;
+    write_quadruple("MOVE"," ");
+    write_quadruple("-"," ");
+    write_quadruple(to_string(val)," ");
+    write_quadruple(name,"\n");
     std::string str = name;
     if(!created[str])
         return 0;
@@ -93,6 +155,10 @@ int assign_int(char* name, int val)
 }
 int assign_float(char* name, float val)
 {
+    write_quadruple("MOVE"," ");
+    write_quadruple("-"," ");
+    write_quadruple(to_string(val)," ");
+    write_quadruple(name,"\n");
     std::string str = name;
     if(!created[str])
         return false;
@@ -103,6 +169,12 @@ int assign_float(char* name, float val)
 }
 int assign_char(char* name, char val)
 {
+    write_quadruple("MOVE"," ");
+    write_quadruple("-"," ");
+    string tmp = "";
+    tmp += val;
+    write_quadruple(tmp," ");
+    write_quadruple(name,"\n");
     std::string str = name;
     if(!created[str])
         return false;
@@ -112,6 +184,10 @@ int assign_char(char* name, char val)
 }
 int assign_string(char* name, char* val)
 {
+    write_quadruple("MOVE"," ");
+    write_quadruple("-"," ");
+    write_quadruple(val," ");
+    write_quadruple(name,"\n");
     std::string str = name;
     if(!created[str])
         return 0;
@@ -121,6 +197,7 @@ int assign_string(char* name, char* val)
 }
 float get_value(char* name,int &flag)
 {
+    write_quadruple(name," ");
     std::string str = name;
     if(!created[str])
     {
@@ -146,6 +223,7 @@ float get_value(char* name,int &flag)
 }
 int assign_value(char* name , float value)
 {
+    write_quadruple(name,"\n");
     std::string str = name;
     cout<<value<<endl;
     if(!created[str])
@@ -164,6 +242,10 @@ int assign_value(char* name , float value)
     }
     else return -2;
 
+}
+void print_operation(char* operation)
+{
+    write_quadruple(operation," ");
 }
 void print_table()
 {

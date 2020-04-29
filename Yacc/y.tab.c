@@ -468,9 +468,9 @@ static const yytype_uint8 yyrline[] =
 {
        0,    36,    36,    37,    41,    42,    43,    44,    45,    46,
       47,    48,    49,    53,    59,    65,    73,    79,    83,    90,
-      94,   101,   105,   110,   117,   123,   130,   137,   145,   152,
-     162,   175,   176,   177,   181,   182,   183,   185,   186,   188,
-     189
+      94,   101,   105,   110,   117,   123,   130,   137,   146,   154,
+     165,   178,   179,   180,   184,   185,   186,   188,   189,   191,
+     192
 };
 #endif
 
@@ -1292,7 +1292,7 @@ yyreduce:
     {
         case 13:
 #line 53 "y.y" /* yacc.c:1646  */
-    {   write_quadruple("CREATE","-","-",(yyvsp[-1].sValue));
+    {   
                                                         int res=create_int((yyvsp[-1].sValue),0,0); 
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
@@ -1303,7 +1303,7 @@ yyreduce:
 
   case 14:
 #line 59 "y.y" /* yacc.c:1646  */
-    { write_quadruple("CREATE","-","-",(yyvsp[-3].sValue));
+    { 
                                                         int res=create_int((yyvsp[-3].sValue),1,(yyvsp[-1].iValue));
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
@@ -1314,7 +1314,7 @@ yyreduce:
 
   case 15:
 #line 65 "y.y" /* yacc.c:1646  */
-    { write_quadruple("CREATE","-","-",(yyvsp[-3].sValue));
+    { 
                                                       int res=create_int((yyvsp[-3].sValue),1,(yyvsp[-1].fValue)); 
                                                       print_table();
                                                       if(res == 0)
@@ -1326,7 +1326,7 @@ yyreduce:
   case 16:
 #line 73 "y.y" /* yacc.c:1646  */
     {
-                                                    write_quadruple("CREATE","-","-",(yyvsp[-1].sValue)); 
+                                                     
                                                     float res = create_float((yyvsp[-1].sValue),0,.0);
                                                     if (res == 0)
                                                         yyerror("Identifier already exists");
@@ -1336,7 +1336,7 @@ yyreduce:
 
   case 17:
 #line 79 "y.y" /* yacc.c:1646  */
-    {write_quadruple("CREATE","-","-",(yyvsp[-3].sValue));
+    {
                                                     int res = create_float((yyvsp[-3].sValue),1,(yyvsp[-1].fValue));
                                                     if (res == 0)
                                                         yyerror("Identifier already exists");}
@@ -1345,7 +1345,7 @@ yyreduce:
 
   case 18:
 #line 83 "y.y" /* yacc.c:1646  */
-    {write_quadruple("CREATE","-","-",(yyvsp[-3].sValue));
+    {  
                                                     int res = create_float((yyvsp[-3].sValue),1,(yyvsp[-1].fValue));
                                                     if (res == 0)
                                                         yyerror("Identifier already exists");}
@@ -1354,7 +1354,7 @@ yyreduce:
 
   case 19:
 #line 90 "y.y" /* yacc.c:1646  */
-    { write_quadruple("CREATE","-","-",(yyvsp[-1].sValue));
+    { 
                                                         int res =create_char((yyvsp[-1].sValue),0,'0');
                                                         if (res == 0)
                                                         yyerror("Identifier already exists");}
@@ -1364,7 +1364,7 @@ yyreduce:
   case 20:
 #line 94 "y.y" /* yacc.c:1646  */
     { 
-                                                        write_quadruple("CREATE","-",(yyvsp[-1].cValue),(yyvsp[-3].sValue));
+                                                        
                                                         int res = create_char((yyvsp[-3].sValue),1,(yyvsp[-1].cValue));
                                                         if (res == 0)
                                                         yyerror("Identifier already exists");}
@@ -1373,7 +1373,7 @@ yyreduce:
 
   case 21:
 #line 101 "y.y" /* yacc.c:1646  */
-    {write_quadruple("CREATE","-","-",(yyvsp[-1].sValue));
+    {
                                                         int res =create_string((yyvsp[-1].sValue),0,"0");
                                                         if (res == 0)
                                                         yyerror("Identifier already exists");}
@@ -1391,7 +1391,7 @@ yyreduce:
   case 23:
 #line 110 "y.y" /* yacc.c:1646  */
     {
-                                                        write_quadruple("MOVE","-",(yyvsp[-1].iValue),(yyvsp[-3].sValue)); 
+                                                         
                                                         int res = assign_int((yyvsp[-3].sValue),(yyvsp[-1].iValue)); 
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier");}
@@ -1400,7 +1400,7 @@ yyreduce:
 
   case 24:
 #line 117 "y.y" /* yacc.c:1646  */
-    {write_quadruple("MOVE","-",(yyvsp[-1].fValue),(yyvsp[-3].sValue));
+    {
                                                          int res = assign_float((yyvsp[-3].sValue),(yyvsp[-1].fValue));
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier"); }
@@ -1410,7 +1410,7 @@ yyreduce:
   case 25:
 #line 123 "y.y" /* yacc.c:1646  */
     {
-                                                        write_quadruple("MOVE","-",(yyvsp[-1].cValue),(yyvsp[-3].sValue)); 
+                                                        
                                                         int res = assign_char((yyvsp[-3].sValue),(yyvsp[-1].cValue));  
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier");}
@@ -1420,7 +1420,7 @@ yyreduce:
   case 26:
 #line 130 "y.y" /* yacc.c:1646  */
     {
-                                                        write_quadruple("MOVE","-",(yyvsp[-1].sValue),(yyvsp[-3].sValue)); 
+                                                        
                                                         int res = assign_string((yyvsp[-3].sValue),(yyvsp[-1].sValue)); 
                                                         if (res == 0)
                                                         yyerror("Undeclared identifier");}
@@ -1429,31 +1429,34 @@ yyreduce:
 
   case 27:
 #line 137 "y.y" /* yacc.c:1646  */
-    { write_quadruple("MOVE","-",(yyvsp[-1].fValue),(yyvsp[-3].sValue)); 
+    { 
+                                                         
                                                         int msg=assign_value((yyvsp[-3].sValue),(yyvsp[-1].fValue)); 
     ;                                                     if(msg == -1)
                                                             yyerror("UNKNOWN IDENTIFIER");
                                                         else if(msg == -2)
                                                             yyerror("TYPE NOT SUPPORTED");
                                                        }
-#line 1440 "y.tab.c" /* yacc.c:1646  */
+#line 1441 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 145 "y.y" /* yacc.c:1646  */
-    { int x = 0; 
+#line 146 "y.y" /* yacc.c:1646  */
+    { print_operation("MOVE");
+                                      int x = 0; 
                                       float val = get_value((yyvsp[0].sValue),x);
                                       if(x == -1)
                                       yyerror("INVALID EXPRESSION");
                                       else
                                       (yyval.fValue) = val;
                                     }
-#line 1452 "y.tab.c" /* yacc.c:1646  */
+#line 1454 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 152 "y.y" /* yacc.c:1646  */
+#line 154 "y.y" /* yacc.c:1646  */
     {
+                                    print_operation("ADD");
                                     int x = 0;
                                     int y = 0;
                                     float val1 = get_value((yyvsp[-2].sValue),x);
@@ -1463,12 +1466,12 @@ yyreduce:
                                     else
                                         yyerror("INVALID EXPRESSION");
                                    }
-#line 1467 "y.tab.c" /* yacc.c:1646  */
+#line 1470 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 162 "y.y" /* yacc.c:1646  */
-    { 
+#line 165 "y.y" /* yacc.c:1646  */
+    { print_operation("SUB");
                                     int x = 0;
                                     int y = 0;
                                     float val1 = get_value((yyvsp[-2].sValue),x);
@@ -1478,71 +1481,71 @@ yyreduce:
                                     else
                                         yyerror("INVALID EXPRESSION");
                                    }
-#line 1482 "y.tab.c" /* yacc.c:1646  */
+#line 1485 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 175 "y.y" /* yacc.c:1646  */
+#line 178 "y.y" /* yacc.c:1646  */
     { (yyval.iValue) = (yyvsp[0].iValue);      }
-#line 1488 "y.tab.c" /* yacc.c:1646  */
+#line 1491 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 176 "y.y" /* yacc.c:1646  */
+#line 179 "y.y" /* yacc.c:1646  */
     { (yyval.iValue) = (yyvsp[-2].iValue) + (yyvsp[0].iValue); }
-#line 1494 "y.tab.c" /* yacc.c:1646  */
+#line 1497 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 177 "y.y" /* yacc.c:1646  */
+#line 180 "y.y" /* yacc.c:1646  */
     { (yyval.iValue) = (yyvsp[-2].iValue) - (yyvsp[0].iValue); }
-#line 1500 "y.tab.c" /* yacc.c:1646  */
+#line 1503 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 181 "y.y" /* yacc.c:1646  */
+#line 184 "y.y" /* yacc.c:1646  */
     { (yyval.fValue) = (yyvsp[0].fValue);      }
-#line 1506 "y.tab.c" /* yacc.c:1646  */
+#line 1509 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 182 "y.y" /* yacc.c:1646  */
+#line 185 "y.y" /* yacc.c:1646  */
     { (yyval.fValue) = (yyvsp[-2].fValue) + (yyvsp[0].fValue); }
-#line 1512 "y.tab.c" /* yacc.c:1646  */
+#line 1515 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 183 "y.y" /* yacc.c:1646  */
+#line 186 "y.y" /* yacc.c:1646  */
     { (yyval.fValue) = (yyvsp[-2].fValue) - (yyvsp[0].fValue); }
-#line 1518 "y.tab.c" /* yacc.c:1646  */
+#line 1521 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 185 "y.y" /* yacc.c:1646  */
+#line 188 "y.y" /* yacc.c:1646  */
     { (yyval.fValue) = (yyvsp[-2].iValue) + (yyvsp[0].fValue); }
-#line 1524 "y.tab.c" /* yacc.c:1646  */
+#line 1527 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 186 "y.y" /* yacc.c:1646  */
+#line 189 "y.y" /* yacc.c:1646  */
     { (yyval.fValue) = (yyvsp[-2].iValue) - (yyvsp[0].fValue); }
-#line 1530 "y.tab.c" /* yacc.c:1646  */
+#line 1533 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 188 "y.y" /* yacc.c:1646  */
+#line 191 "y.y" /* yacc.c:1646  */
     { (yyval.fValue) = (yyvsp[-2].fValue) - (yyvsp[0].iValue); }
-#line 1536 "y.tab.c" /* yacc.c:1646  */
+#line 1539 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 189 "y.y" /* yacc.c:1646  */
+#line 192 "y.y" /* yacc.c:1646  */
     { (yyval.fValue) = (yyvsp[-2].fValue) + (yyvsp[0].iValue); }
-#line 1542 "y.tab.c" /* yacc.c:1646  */
+#line 1545 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1546 "y.tab.c" /* yacc.c:1646  */
+#line 1549 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1770,10 +1773,12 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 191 "y.y" /* yacc.c:1906  */
+#line 194 "y.y" /* yacc.c:1906  */
 
 void yyerror(char *s) {
     fprintf(stderr, "%s\n",s);
+    //removing the quadruples file in case of a syntax error.
+    //remove("./quad.txt");
     exit(0);
 }
 void prep_file(char* file_name)
@@ -1798,7 +1803,7 @@ void prep_file(char* file_name)
     fclose(TMP);
 }
 int main(void) {
-
+    remove("./quad.txt");
     extern FILE *yyin;
     extern FILE *yyout;
     prep_file("./test.txt");
