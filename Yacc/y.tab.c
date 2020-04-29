@@ -64,12 +64,14 @@
 /* Copy the first part of user declarations.  */
 #line 1 "y.y" /* yacc.c:339  */
 
+    
     #include <stdio.h>
     #include "symbol_table.h"
     int yylex(void);
     void yyerror(char *);
+    void prep_file(char * file_name);
 
-#line 73 "y.tab.c" /* yacc.c:339  */
+#line 75 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -141,14 +143,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 8 "y.y" /* yacc.c:355  */
+#line 10 "y.y" /* yacc.c:355  */
 
     int iValue;        /* integer value */
     float fValue;        /* float value */
     char cValue;       /* character value */
     char* sValue;
 
-#line 152 "y.tab.c" /* yacc.c:355  */
+#line 154 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -165,7 +167,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 169 "y.tab.c" /* yacc.c:358  */
+#line 171 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -407,16 +409,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  22
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   74
+#define YYLAST   83
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  21
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  15
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  38
+#define YYNRULES  40
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  74
+#define YYNSTATES  78
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -464,10 +466,11 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    34,    34,    35,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    51,    55,    58,    59,    62,    63,    66,
-      67,    70,    73,    76,    79,    82,    88,    95,   106,   119,
-     120,   121,   125,   126,   127,   129,   130,   132,   133
+       0,    36,    36,    37,    41,    42,    43,    44,    45,    46,
+      47,    48,    49,    53,    59,    65,    73,    79,    83,    90,
+      94,   101,   105,   110,   117,   123,   130,   137,   145,   152,
+     162,   175,   176,   177,   181,   182,   183,   185,   186,   188,
+     189
 };
 #endif
 
@@ -512,14 +515,14 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -2,   -15,    -9,    -3,     7,   -11,     4,   -26,   -26,   -26,
-     -26,   -26,   -26,   -26,   -26,   -26,   -26,    12,    44,    46,
-      48,     2,   -26,   -26,   -26,    13,   -26,    47,   -26,    14,
-     -26,    17,   -26,   -26,    29,    51,    33,    37,    28,    32,
-      36,    53,    40,    41,    50,   -26,    54,    56,   -26,   -26,
-     -26,    47,    47,   -26,    47,    47,   -26,    13,    13,   -26,
-     -26,   -26,   -26,   -26,    53,    55,    53,    55,    53,    55,
-      53,    55,    57,    57
+      -1,    -8,    -2,     8,    16,    27,     5,   -26,   -26,   -26,
+     -26,   -26,   -26,   -26,   -26,   -26,   -26,    46,    48,    50,
+      52,     3,   -26,   -26,   -26,    15,   -26,     9,   -26,    26,
+     -26,    28,   -26,   -26,    40,    53,    44,    54,   -10,    31,
+      59,    35,    66,    55,    39,    67,    68,   -26,    63,    64,
+     -26,   -26,   -26,    56,    56,   -26,    56,    56,   -26,   -26,
+      65,    65,   -26,   -26,   -26,   -26,   -26,   -26,    55,    60,
+      55,    60,    55,    60,    55,    60,    62,    62
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -529,19 +532,19 @@ static const yytype_uint8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     0,     3,     4,     6,
        7,     5,     8,     9,    10,    11,    12,     0,     0,     0,
-       0,     0,     1,     2,    13,     0,    15,     0,    17,     0,
-      19,     0,    29,    32,     0,    26,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,    23,     0,     0,    24,    25,
-      21,     0,     0,    22,     0,     0,    14,     0,     0,    16,
-      18,    20,    27,    28,    30,    35,    31,    36,    38,    33,
-      37,    34,    30,    31
+       0,     0,     1,     2,    13,     0,    16,     0,    19,     0,
+      21,     0,    31,    34,     0,    28,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,    25,     0,     0,
+      26,    27,    23,     0,     0,    24,     0,     0,    15,    14,
+       0,     0,    18,    17,    20,    22,    29,    30,    32,    37,
+      33,    38,    40,    35,    39,    36,    32,    33
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -26,   -26,    67,   -26,   -26,   -26,   -26,   -26,   -26,   -26,
-     -26,   -26,   -26,   -25,   -17
+     -26,   -26,    77,   -26,   -26,   -26,   -26,   -26,   -26,   -26,
+     -26,   -26,    29,   -25,   -16
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -556,26 +559,28 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      40,    21,    41,    17,    22,     1,     2,     3,     4,    18,
-      42,     1,     2,     3,     4,    19,     5,    32,    33,    34,
-      35,    36,     5,    24,    25,    20,    64,    66,    32,    68,
-      70,    43,    72,    73,    65,    67,    44,    69,    71,    50,
-      45,    51,    52,    53,    48,    54,    55,    56,    49,    57,
-      58,    59,    60,    54,    55,    26,    27,    28,    29,    30,
-      31,    61,    32,    33,    46,    47,    51,    52,    54,    55,
-      57,    58,    62,    23,    63
+      41,    52,    43,    53,    54,    22,     1,     2,     3,     4,
+      17,    44,     1,     2,     3,     4,    18,     5,    32,    33,
+      34,    35,    36,     5,    32,    33,    19,    35,    68,    70,
+      32,    72,    74,    35,    20,    76,    77,    69,    71,    21,
+      73,    75,    55,    45,    56,    57,    59,    46,    60,    61,
+      63,    47,    56,    57,    40,    50,    42,    24,    25,    26,
+      27,    28,    29,    30,    31,    51,    48,    49,    53,    54,
+      58,    32,    33,    56,    57,    60,    61,    62,    64,    65,
+      32,    66,    67,    23
 };
 
 static const yytype_uint8 yycheck[] =
 {
-      25,    12,    27,    18,     0,     7,     8,     9,    10,    18,
-      27,     7,     8,     9,    10,    18,    18,    15,    16,    17,
-      18,    19,    18,    11,    12,    18,    51,    52,    15,    54,
-      55,    17,    57,    58,    51,    52,    19,    54,    55,    11,
-      11,    13,    14,    11,    11,    13,    14,    11,    11,    13,
-      14,    11,    11,    13,    14,    11,    12,    11,    12,    11,
-      12,    11,    15,    16,    13,    14,    13,    14,    13,    14,
-      13,    14,    18,     6,    18
+      25,    11,    27,    13,    14,     0,     7,     8,     9,    10,
+      18,    27,     7,     8,     9,    10,    18,    18,    15,    16,
+      17,    18,    19,    18,    15,    16,    18,    18,    53,    54,
+      15,    56,    57,    18,    18,    60,    61,    53,    54,    12,
+      56,    57,    11,    17,    13,    14,    11,    19,    13,    14,
+      11,    11,    13,    14,    25,    11,    27,    11,    12,    11,
+      12,    11,    12,    11,    12,    11,    13,    14,    13,    14,
+      11,    15,    16,    13,    14,    13,    14,    11,    11,    11,
+      15,    18,    18,     6
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -586,28 +591,30 @@ static const yytype_uint8 yystos[] =
       26,    27,    28,    29,    30,    31,    32,    18,    18,    18,
       18,    12,     0,    23,    11,    12,    11,    12,    11,    12,
       11,    12,    15,    16,    17,    18,    19,    33,    34,    35,
-      34,    34,    35,    17,    19,    11,    13,    14,    11,    11,
-      11,    13,    14,    11,    13,    14,    11,    13,    14,    11,
-      11,    11,    18,    18,    34,    35,    34,    35,    34,    35,
-      34,    35,    34,    34
+      33,    34,    33,    34,    35,    17,    19,    11,    13,    14,
+      11,    11,    11,    13,    14,    11,    13,    14,    11,    11,
+      13,    14,    11,    11,    11,    11,    18,    18,    34,    35,
+      34,    35,    34,    35,    34,    35,    34,    34
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
        0,    21,    22,    22,    23,    23,    23,    23,    23,    23,
-      23,    23,    23,    24,    24,    25,    25,    26,    26,    27,
-      27,    28,    29,    30,    31,    32,    33,    33,    33,    34,
-      34,    34,    35,    35,    35,    35,    35,    35,    35
+      23,    23,    23,    24,    24,    24,    25,    25,    25,    26,
+      26,    27,    27,    28,    29,    30,    31,    32,    33,    33,
+      33,    34,    34,    34,    35,    35,    35,    35,    35,    35,
+      35
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     2,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     3,     5,     3,     5,     3,     5,     3,
-       5,     4,     4,     4,     4,     4,     1,     3,     3,     1,
-       3,     3,     1,     3,     3,     3,     3,     3,     3
+       1,     1,     1,     3,     5,     5,     3,     5,     5,     3,
+       5,     3,     5,     4,     4,     4,     4,     4,     1,     3,
+       3,     1,     3,     3,     1,     3,     3,     3,     3,     3,
+       3
 };
 
 
@@ -1284,194 +1291,258 @@ yyreduce:
   switch (yyn)
     {
         case 13:
-#line 51 "y.y" /* yacc.c:1646  */
-    { int res=create_int((yyvsp[-1].sValue),0,0); print_table();
+#line 53 "y.y" /* yacc.c:1646  */
+    {   write_quadruple("CREATE","-","-",(yyvsp[-1].sValue));
+                                                        int res=create_int((yyvsp[-1].sValue),0,0); 
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
+                                                      print_table();
                                                     }
-#line 1293 "y.tab.c" /* yacc.c:1646  */
+#line 1302 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 55 "y.y" /* yacc.c:1646  */
-    { create_int((yyvsp[-3].sValue),1,(yyvsp[-1].iValue)); }
-#line 1299 "y.tab.c" /* yacc.c:1646  */
+#line 59 "y.y" /* yacc.c:1646  */
+    { write_quadruple("CREATE","-","-",(yyvsp[-3].sValue));
+                                                        int res=create_int((yyvsp[-3].sValue),1,(yyvsp[-1].iValue));
+                                                      if(res == 0)
+                                                      yyerror("Identifier already exists");
+                                                      print_table();
+                                                     }
+#line 1313 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 58 "y.y" /* yacc.c:1646  */
-    {create_float((yyvsp[-1].sValue),0,.0);}
-#line 1305 "y.tab.c" /* yacc.c:1646  */
+#line 65 "y.y" /* yacc.c:1646  */
+    { write_quadruple("CREATE","-","-",(yyvsp[-3].sValue));
+                                                      int res=create_int((yyvsp[-3].sValue),1,(yyvsp[-1].fValue)); 
+                                                      print_table();
+                                                      if(res == 0)
+                                                      yyerror("Identifier already exists");
+                                                     }
+#line 1324 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 59 "y.y" /* yacc.c:1646  */
-    {create_float((yyvsp[-3].sValue),1,(yyvsp[-1].fValue));}
-#line 1311 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 17:
-#line 62 "y.y" /* yacc.c:1646  */
-    {create_char((yyvsp[-1].sValue),0,'0');}
-#line 1317 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 18:
-#line 63 "y.y" /* yacc.c:1646  */
-    {create_char((yyvsp[-3].sValue),0,(yyvsp[-1].cValue));}
-#line 1323 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 19:
-#line 66 "y.y" /* yacc.c:1646  */
-    {create_string((yyvsp[-1].sValue),0,"0");}
-#line 1329 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 20:
-#line 67 "y.y" /* yacc.c:1646  */
-    {create_string((yyvsp[-3].sValue),1,(yyvsp[-1].sValue));}
+#line 73 "y.y" /* yacc.c:1646  */
+    {
+                                                    write_quadruple("CREATE","-","-",(yyvsp[-1].sValue)); 
+                                                    float res = create_float((yyvsp[-1].sValue),0,.0);
+                                                    if (res == 0)
+                                                        yyerror("Identifier already exists");
+                                                    }
 #line 1335 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 21:
-#line 70 "y.y" /* yacc.c:1646  */
-    { assign_int((yyvsp[-3].sValue),(yyvsp[-1].iValue)); }
-#line 1341 "y.tab.c" /* yacc.c:1646  */
+  case 17:
+#line 79 "y.y" /* yacc.c:1646  */
+    {write_quadruple("CREATE","-","-",(yyvsp[-3].sValue));
+                                                    int res = create_float((yyvsp[-3].sValue),1,(yyvsp[-1].fValue));
+                                                    if (res == 0)
+                                                        yyerror("Identifier already exists");}
+#line 1344 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 22:
-#line 73 "y.y" /* yacc.c:1646  */
-    { assign_float((yyvsp[-3].sValue),(yyvsp[-1].fValue)); }
-#line 1347 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 23:
-#line 76 "y.y" /* yacc.c:1646  */
-    { assign_char((yyvsp[-3].sValue),(yyvsp[-1].cValue));  }
+  case 18:
+#line 83 "y.y" /* yacc.c:1646  */
+    {write_quadruple("CREATE","-","-",(yyvsp[-3].sValue));
+                                                    int res = create_float((yyvsp[-3].sValue),1,(yyvsp[-1].fValue));
+                                                    if (res == 0)
+                                                        yyerror("Identifier already exists");}
 #line 1353 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 19:
+#line 90 "y.y" /* yacc.c:1646  */
+    { write_quadruple("CREATE","-","-",(yyvsp[-1].sValue));
+                                                        int res =create_char((yyvsp[-1].sValue),0,'0');
+                                                        if (res == 0)
+                                                        yyerror("Identifier already exists");}
+#line 1362 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 20:
+#line 94 "y.y" /* yacc.c:1646  */
+    { 
+                                                        write_quadruple("CREATE","-",(yyvsp[-1].cValue),(yyvsp[-3].sValue));
+                                                        int res = create_char((yyvsp[-3].sValue),1,(yyvsp[-1].cValue));
+                                                        if (res == 0)
+                                                        yyerror("Identifier already exists");}
+#line 1372 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 21:
+#line 101 "y.y" /* yacc.c:1646  */
+    {write_quadruple("CREATE","-","-",(yyvsp[-1].sValue));
+                                                        int res =create_string((yyvsp[-1].sValue),0,"0");
+                                                        if (res == 0)
+                                                        yyerror("Identifier already exists");}
+#line 1381 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 22:
+#line 105 "y.y" /* yacc.c:1646  */
+    { int res = create_string((yyvsp[-3].sValue),1,(yyvsp[-1].sValue));
+                                                        if (res == 0)
+                                                        yyerror("Identifier already exists");}
+#line 1389 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 23:
+#line 110 "y.y" /* yacc.c:1646  */
+    {
+                                                        write_quadruple("MOVE","-",(yyvsp[-1].iValue),(yyvsp[-3].sValue)); 
+                                                        int res = assign_int((yyvsp[-3].sValue),(yyvsp[-1].iValue)); 
+                                                        if (res == 0)
+                                                        yyerror("Undeclared identifier");}
+#line 1399 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 24:
-#line 79 "y.y" /* yacc.c:1646  */
-    { assign_string((yyvsp[-3].sValue),(yyvsp[-1].sValue)); }
-#line 1359 "y.tab.c" /* yacc.c:1646  */
+#line 117 "y.y" /* yacc.c:1646  */
+    {write_quadruple("MOVE","-",(yyvsp[-1].fValue),(yyvsp[-3].sValue));
+                                                         int res = assign_float((yyvsp[-3].sValue),(yyvsp[-1].fValue));
+                                                        if (res == 0)
+                                                        yyerror("Undeclared identifier"); }
+#line 1408 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 82 "y.y" /* yacc.c:1646  */
-    { char* msg=assign_value((yyvsp[-3].sValue),(yyvsp[-1].fValue)); 
-    ;                                                     if(msg !="")
-                                                          yyerror(msg);
-                                                       }
-#line 1368 "y.tab.c" /* yacc.c:1646  */
+#line 123 "y.y" /* yacc.c:1646  */
+    {
+                                                        write_quadruple("MOVE","-",(yyvsp[-1].cValue),(yyvsp[-3].sValue)); 
+                                                        int res = assign_char((yyvsp[-3].sValue),(yyvsp[-1].cValue));  
+                                                        if (res == 0)
+                                                        yyerror("Undeclared identifier");}
+#line 1418 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 88 "y.y" /* yacc.c:1646  */
-    { int x = 0; 
-                                      float val = get_value((yyvsp[0].sValue),x);
-                                      if(x == -1)
-                                      yyerror("ERROR evaluating expression ");
-                                      else
-                                      (yyval.fValue) = val;
-                                      }
-#line 1380 "y.tab.c" /* yacc.c:1646  */
+#line 130 "y.y" /* yacc.c:1646  */
+    {
+                                                        write_quadruple("MOVE","-",(yyvsp[-1].sValue),(yyvsp[-3].sValue)); 
+                                                        int res = assign_string((yyvsp[-3].sValue),(yyvsp[-1].sValue)); 
+                                                        if (res == 0)
+                                                        yyerror("Undeclared identifier");}
+#line 1428 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 95 "y.y" /* yacc.c:1646  */
-    {
-                                    int x = 0;
-                                    int y = 0;
-                                     float val1 = get_value((yyvsp[-2].sValue),x);
-
-                                    float val2 = get_value((yyvsp[0].sValue),y);
-                                    if(x == -1 || y == -1)
-                                        (yyval.fValue) = val1 + val2 ;
-                                    else
-                                        yyerror("ERROR evaluating expression ");
-                                   }
-#line 1396 "y.tab.c" /* yacc.c:1646  */
+#line 137 "y.y" /* yacc.c:1646  */
+    { write_quadruple("MOVE","-",(yyvsp[-1].fValue),(yyvsp[-3].sValue)); 
+                                                        int msg=assign_value((yyvsp[-3].sValue),(yyvsp[-1].fValue)); 
+    ;                                                     if(msg == -1)
+                                                            yyerror("UNKNOWN IDENTIFIER");
+                                                        else if(msg == -2)
+                                                            yyerror("TYPE NOT SUPPORTED");
+                                                       }
+#line 1440 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 106 "y.y" /* yacc.c:1646  */
+#line 145 "y.y" /* yacc.c:1646  */
+    { int x = 0; 
+                                      float val = get_value((yyvsp[0].sValue),x);
+                                      if(x == -1)
+                                      yyerror("INVALID EXPRESSION");
+                                      else
+                                      (yyval.fValue) = val;
+                                    }
+#line 1452 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 29:
+#line 152 "y.y" /* yacc.c:1646  */
+    {
+                                    int x = 0;
+                                    int y = 0;
+                                    float val1 = get_value((yyvsp[-2].sValue),x);
+                                    float val2 = get_value((yyvsp[0].sValue),y);
+                                    if(x != -1 && y != -1)
+                                        (yyval.fValue) = val1 + val2 ;
+                                    else
+                                        yyerror("INVALID EXPRESSION");
+                                   }
+#line 1467 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 30:
+#line 162 "y.y" /* yacc.c:1646  */
     { 
                                     int x = 0;
                                     int y = 0;
                                     float val1 = get_value((yyvsp[-2].sValue),x);
                                     float val2 = get_value((yyvsp[0].sValue),y);
-                                    if(x == -1 || y == -1)
+                                    if(x != -1 && y != -1)
                                         (yyval.fValue) = val1 - val2 ;
                                     else
-                                        yyerror("ERROR evaluating expression ");
+                                        yyerror("INVALID EXPRESSION");
                                    }
-#line 1411 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 29:
-#line 119 "y.y" /* yacc.c:1646  */
-    { (yyval.iValue) = (yyvsp[0].iValue);      }
-#line 1417 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 30:
-#line 120 "y.y" /* yacc.c:1646  */
-    { (yyval.iValue) = (yyvsp[-2].iValue) + (yyvsp[0].iValue); }
-#line 1423 "y.tab.c" /* yacc.c:1646  */
+#line 1482 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 121 "y.y" /* yacc.c:1646  */
-    { (yyval.iValue) = (yyvsp[-2].iValue) - (yyvsp[0].iValue); }
-#line 1429 "y.tab.c" /* yacc.c:1646  */
+#line 175 "y.y" /* yacc.c:1646  */
+    { (yyval.iValue) = (yyvsp[0].iValue);      }
+#line 1488 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 125 "y.y" /* yacc.c:1646  */
-    { (yyval.fValue) = (yyvsp[0].fValue);      }
-#line 1435 "y.tab.c" /* yacc.c:1646  */
+#line 176 "y.y" /* yacc.c:1646  */
+    { (yyval.iValue) = (yyvsp[-2].iValue) + (yyvsp[0].iValue); }
+#line 1494 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 126 "y.y" /* yacc.c:1646  */
-    { (yyval.fValue) = (yyvsp[-2].fValue) + (yyvsp[0].fValue); }
-#line 1441 "y.tab.c" /* yacc.c:1646  */
+#line 177 "y.y" /* yacc.c:1646  */
+    { (yyval.iValue) = (yyvsp[-2].iValue) - (yyvsp[0].iValue); }
+#line 1500 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 127 "y.y" /* yacc.c:1646  */
-    { (yyval.fValue) = (yyvsp[-2].fValue) - (yyvsp[0].fValue); }
-#line 1447 "y.tab.c" /* yacc.c:1646  */
+#line 181 "y.y" /* yacc.c:1646  */
+    { (yyval.fValue) = (yyvsp[0].fValue);      }
+#line 1506 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 129 "y.y" /* yacc.c:1646  */
-    { (yyval.fValue) = (yyvsp[-2].iValue) + (yyvsp[0].fValue); }
-#line 1453 "y.tab.c" /* yacc.c:1646  */
+#line 182 "y.y" /* yacc.c:1646  */
+    { (yyval.fValue) = (yyvsp[-2].fValue) + (yyvsp[0].fValue); }
+#line 1512 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 130 "y.y" /* yacc.c:1646  */
-    { (yyval.fValue) = (yyvsp[-2].iValue) - (yyvsp[0].fValue); }
-#line 1459 "y.tab.c" /* yacc.c:1646  */
+#line 183 "y.y" /* yacc.c:1646  */
+    { (yyval.fValue) = (yyvsp[-2].fValue) - (yyvsp[0].fValue); }
+#line 1518 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 132 "y.y" /* yacc.c:1646  */
-    { (yyval.fValue) = (yyvsp[-2].fValue) - (yyvsp[0].iValue); }
-#line 1465 "y.tab.c" /* yacc.c:1646  */
+#line 185 "y.y" /* yacc.c:1646  */
+    { (yyval.fValue) = (yyvsp[-2].iValue) + (yyvsp[0].fValue); }
+#line 1524 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 133 "y.y" /* yacc.c:1646  */
+#line 186 "y.y" /* yacc.c:1646  */
+    { (yyval.fValue) = (yyvsp[-2].iValue) - (yyvsp[0].fValue); }
+#line 1530 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 39:
+#line 188 "y.y" /* yacc.c:1646  */
+    { (yyval.fValue) = (yyvsp[-2].fValue) - (yyvsp[0].iValue); }
+#line 1536 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 40:
+#line 189 "y.y" /* yacc.c:1646  */
     { (yyval.fValue) = (yyvsp[-2].fValue) + (yyvsp[0].iValue); }
-#line 1471 "y.tab.c" /* yacc.c:1646  */
+#line 1542 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1475 "y.tab.c" /* yacc.c:1646  */
+#line 1546 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1699,13 +1770,42 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 135 "y.y" /* yacc.c:1906  */
+#line 191 "y.y" /* yacc.c:1906  */
 
 void yyerror(char *s) {
     fprintf(stderr, "%s\n",s);
-    printf("aaaaaa");
+    exit(0);
+}
+void prep_file(char* file_name)
+{
+    FILE * FP = fopen(file_name,"r");
+    FILE * TMP = fopen("tmp.txt","w");
+    char c;
+	int count = 0;
+	while((c = fgetc(FP)) != EOF)
+	{
+		if(c == ' ' || c == '\n')
+		{
+			fprintf(TMP,"\n");
+			++count;
+		}
+		else
+		{
+			fprintf(TMP,"%c", c);
+		}
+	}
+	fclose(FP);
+    fclose(TMP);
 }
 int main(void) {
+
+    extern FILE *yyin;
+    extern FILE *yyout;
+    prep_file("./test.txt");
+    FILE * FP = fopen("./tmp.txt","r");
+    yyin = FP;
     yyparse();
+    fclose(FP);
+    remove("./tmp.txt");
     return 0;
 }

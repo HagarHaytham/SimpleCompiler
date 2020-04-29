@@ -4,6 +4,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+    void write_quadruple(char* op , char* src1, char* src2 , char* dest);
     float get_value(char* name, int &flag); 
     int create_int(char* name, int  assign, int value);
     int create_float(char* name, int assign, float value);
@@ -13,7 +14,7 @@ extern "C" {
     int assign_float(char* name, float val);
     int assign_char(char* name, char val);
     int assign_string(char* name, char* val);
-    char* assign_value(char* name,float val);
+    int assign_value(char* name,float val);
     void print_table();
 #ifdef __cplusplus
     }

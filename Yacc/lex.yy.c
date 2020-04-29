@@ -372,7 +372,7 @@ static const flex_int16_t yy_accept[47] =
 static const YY_CHAR yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    1,    4,    1,    1,    1,    1,    5,    1,
         1,    1,    6,    1,    7,    1,    1,    8,    9,    9,
@@ -781,14 +781,15 @@ return STRING;
 case 5:
 YY_RULE_SETUP
 #line 13 "l.l"
-{       
+{    
+                                        printf("%s\n",yytext); 
                                         yylval.iValue = atoi(yytext);
                                         return INT_VALUE;
                                 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 17 "l.l"
+#line 18 "l.l"
 {  
                                    yylval.fValue = strtof(yytext,NULL);
                                   return FLOAT_VALUE;
@@ -796,7 +797,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 21 "l.l"
+#line 22 "l.l"
 {  
                                    strncpy(&yylval.cValue, &yytext[1], 1) ;
                                     return CHAR_VALUE;
@@ -804,7 +805,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "l.l"
+#line 26 "l.l"
 {   
                                     yylval.sValue = strdup(yytext);
                                     return STRING_VALUE;
@@ -812,49 +813,49 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "l.l"
+#line 30 "l.l"
 {   
                                     yylval.sValue = strdup(yytext);
-                                    return IDENTIFIER;  
+                                    return IDENTIFIER;
                                 } 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 33 "l.l"
+#line 34 "l.l"
 {return SEMICOLON;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 34 "l.l"
+#line 35 "l.l"
 {  return EQUAL;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 35 "l.l"
+#line 36 "l.l"
 { return PLUS;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 36 "l.l"
+#line 37 "l.l"
 { return MINUS;}                               
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 37 "l.l"
+#line 38 "l.l"
 ;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 38 "l.l"
+#line 39 "l.l"
 {printf("unexpected character");}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 40 "l.l"
+#line 41 "l.l"
 ECHO;
 	YY_BREAK
-#line 858 "lex.yy.c"
+#line 859 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1859,7 +1860,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 40 "l.l"
+#line 41 "l.l"
 
 
 

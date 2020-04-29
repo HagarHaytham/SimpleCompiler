@@ -82,7 +82,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 8 "y.y" /* yacc.c:1909  */
+#line 10 "y.y" /* yacc.c:1909  */
 
     int iValue;        /* integer value */
     float fValue;        /* float value */

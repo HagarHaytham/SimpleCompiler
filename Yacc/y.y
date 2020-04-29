@@ -1,8 +1,10 @@
 %{
+    
     #include <stdio.h>
     #include "symbol_table.h"
     int yylex(void);
     void yyerror(char *);
+    void prep_file(char * file_name);
 %}
 %start program
 %union {
@@ -48,17 +50,19 @@ stmt:
     ;
 int_dclr_stmt:
 
-    INTEGER IDENTIFIER SEMICOLON                    { int res=create_int($2,0,0); 
+    INTEGER IDENTIFIER SEMICOLON                    {   write_quadruple("CREATE","-","-",$2);
+                                                        int res=create_int($2,0,0); 
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
                                                       print_table();
                                                     }           
-    | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON   { int res=create_int($2,1,$4);
+    | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON   { write_quadruple("CREATE","-","-",$2);
+                                                        int res=create_int($2,1,$4);
                                                       if(res == 0)
                                                       yyerror("Identifier already exists");
                                                       print_table();
                                                      }
-    | INTEGER IDENTIFIER EQUAL id_expr SEMICOLON    {
+    | INTEGER IDENTIFIER EQUAL id_expr SEMICOLON    { write_quadruple("CREATE","-","-",$2);
                                                       int res=create_int($2,1,$4); 
                                                       print_table();
                                                       if(res == 0)
@@ -66,68 +70,104 @@ int_dclr_stmt:
                                                      }
     ;
 float_dclr_stmt:
-     FLOAT IDENTIFIER SEMICOLON                    {create_float($2,0,.0);}
-    | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON   {create_float($2,1,$4);}
-    | FLOAT IDENTIFIER EQUAL id_expr SEMICOLON   {create_float($2,1,$4);}
+     FLOAT IDENTIFIER SEMICOLON                    {
+                                                    write_quadruple("CREATE","-","-",$2); 
+                                                    float res = create_float($2,0,.0);
+                                                    if (res == 0)
+                                                        yyerror("Identifier already exists");
+                                                    }
+    | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON   {write_quadruple("CREATE","-","-",$2);
+                                                    int res = create_float($2,1,$4);
+                                                    if (res == 0)
+                                                        yyerror("Identifier already exists");}
+    | FLOAT IDENTIFIER EQUAL id_expr SEMICOLON   {write_quadruple("CREATE","-","-",$2);
+                                                    int res = create_float($2,1,$4);
+                                                    if (res == 0)
+                                                        yyerror("Identifier already exists");}
     
     ;
 char_dclr_stmt:
-     CHAR IDENTIFIER SEMICOLON                     {create_char($2,0,'0');}
-    | CHAR IDENTIFIER EQUAL CHAR_VALUE SEMICOLON    {create_char($2,1,$4);}
-    | CHAR IDENTIFIER EQUAL id_VALUE SEMICOLON    {create_char($2,1,$4);}
+     CHAR IDENTIFIER SEMICOLON                     { write_quadruple("CREATE","-","-",$2);
+                                                        int res =create_char($2,0,'0');
+                                                        if (res == 0)
+                                                        yyerror("Identifier already exists");}
+    | CHAR IDENTIFIER EQUAL CHAR_VALUE SEMICOLON    { 
+                                                        write_quadruple("CREATE","-",$4,$2);
+                                                        int res = create_char($2,1,$4);
+                                                        if (res == 0)
+                                                        yyerror("Identifier already exists");}
     ;
 string_dclr_stmt:
-     STRING IDENTIFIER SEMICOLON                       {create_string($2,0,"0");}
-    | STRING IDENTIFIER EQUAL STRING_VALUE SEMICOLON    {create_string($2,1,$4);}
-    | STRING IDENTIFIER EQUAL id_VALUE SEMICOLON    {create_string($2,1,$4);}
-
+     STRING IDENTIFIER SEMICOLON                       {write_quadruple("CREATE","-","-",$2);
+                                                        int res =create_string($2,0,"0");
+                                                        if (res == 0)
+                                                        yyerror("Identifier already exists");}
+    | STRING IDENTIFIER EQUAL STRING_VALUE SEMICOLON    { int res = create_string($2,1,$4);
+                                                        if (res == 0)
+                                                        yyerror("Identifier already exists");}
     ;
 int_assign_stmt:
-     IDENTIFIER EQUAL int_expr SEMICOLON               { assign_int($1,$3); }
+     IDENTIFIER EQUAL int_expr SEMICOLON               {
+                                                        write_quadruple("MOVE","-",$3,$1); 
+                                                        int res = assign_int($1,$3); 
+                                                        if (res == 0)
+                                                        yyerror("Undeclared identifier");}
     ;
 float_assign_stmt:
-     IDENTIFIER EQUAL float_expr SEMICOLON             { assign_float($1,$3); }
+     IDENTIFIER EQUAL float_expr SEMICOLON             {write_quadruple("MOVE","-",$3,$1);
+                                                         int res = assign_float($1,$3);
+                                                        if (res == 0)
+                                                        yyerror("Undeclared identifier"); }
     ;
 char_assign_stmt:
-     IDENTIFIER EQUAL CHAR_VALUE SEMICOLON             { assign_char($1,$3);  }
+     IDENTIFIER EQUAL CHAR_VALUE SEMICOLON             {
+                                                        write_quadruple("MOVE","-",$3,$1); 
+                                                        int res = assign_char($1,$3);  
+                                                        if (res == 0)
+                                                        yyerror("Undeclared identifier");}
     ;
 string_assign_stmt:
-     IDENTIFIER EQUAL STRING_VALUE SEMICOLON           { assign_string($1,$3); }
+     IDENTIFIER EQUAL STRING_VALUE SEMICOLON           {
+                                                        write_quadruple("MOVE","-",$3,$1); 
+                                                        int res = assign_string($1,$3); 
+                                                        if (res == 0)
+                                                        yyerror("Undeclared identifier");}
     ;
 id_assign_stmt:
-     IDENTIFIER EQUAL id_expr SEMICOLON                { char* msg=assign_value($1,$3); 
-    ;                                                     if(msg !="")
-                                                          yyerror(msg);
+     IDENTIFIER EQUAL id_expr SEMICOLON                { write_quadruple("MOVE","-",$3,$1); 
+                                                        int msg=assign_value($1,$3); 
+    ;                                                     if(msg == -1)
+                                                            yyerror("UNKNOWN IDENTIFIER");
+                                                        else if(msg == -2)
+                                                            yyerror("TYPE NOT SUPPORTED");
                                                        }
-
 id_expr:
       IDENTIFIER                    { int x = 0; 
                                       float val = get_value($1,x);
                                       if(x == -1)
-                                        yyerror("ERROR evaluating expression ");
+                                      yyerror("INVALID EXPRESSION");
                                       else
                                       $$ = val;
-                                      }
+                                    }
     | IDENTIFIER PLUS IDENTIFIER    {
                                     int x = 0;
                                     int y = 0;
-                                     float val1 = get_value($1,x);
-
+                                    float val1 = get_value($1,x);
                                     float val2 = get_value($3,y);
-                                    if(x == -1 || y == -1)
+                                    if(x != -1 && y != -1)
                                         $$ = val1 + val2 ;
                                     else
-                                        yyerror("ERROR evaluating expression ");
+                                        yyerror("INVALID EXPRESSION");
                                    }
     | IDENTIFIER MINUS IDENTIFIER { 
                                     int x = 0;
                                     int y = 0;
                                     float val1 = get_value($1,x);
                                     float val2 = get_value($3,y);
-                                    if(x == -1 || y == -1)
+                                    if(x != -1 && y != -1)
                                         $$ = val1 - val2 ;
                                     else
-                                        yyerror("ERROR evaluating expression ");
+                                        yyerror("INVALID EXPRESSION");
                                    }
     ;
 int_expr:
@@ -151,9 +191,38 @@ float_expr:
 %%
 void yyerror(char *s) {
     fprintf(stderr, "%s\n",s);
-    printf("aaaaaa");
+    exit(0);
+}
+void prep_file(char* file_name)
+{
+    FILE * FP = fopen(file_name,"r");
+    FILE * TMP = fopen("tmp.txt","w");
+    char c;
+	int count = 0;
+	while((c = fgetc(FP)) != EOF)
+	{
+		if(c == ' ' || c == '\n')
+		{
+			fprintf(TMP,"\n");
+			++count;
+		}
+		else
+		{
+			fprintf(TMP,"%c", c);
+		}
+	}
+	fclose(FP);
+    fclose(TMP);
 }
 int main(void) {
+
+    extern FILE *yyin;
+    extern FILE *yyout;
+    prep_file("./test.txt");
+    FILE * FP = fopen("./tmp.txt","r");
+    yyin = FP;
     yyparse();
+    fclose(FP);
+    remove("./tmp.txt");
     return 0;
 }

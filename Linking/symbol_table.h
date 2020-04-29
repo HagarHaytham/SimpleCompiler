@@ -4,6 +4,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+    void write_quadruple(char* op , char* src1, char* src2 , char* dest);
     int create_int(char* name, int  assign, int value);
     int create_float(char* name, int assign, float value);
     int create_char(char* name, int assign, char value);
