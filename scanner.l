@@ -23,7 +23,7 @@ print                           return PRINT;
 [0-9]*(.[0-9]+)                 return FLOAT;
 true|false                      return BOOLEAN;
 '[a-zA-Z]'                      return CHAR;
-"[a-zA-Z][_a-zA-Z0-9]*"         return STRING;
+\"[a-zA-Z][_a-zA-Z0-9]*\"         return STRING;
 [a-zA-Z][_a-zA-Z0-9]*           return IDENTIFIER;
 ;                               return SEMICOLON;
 
