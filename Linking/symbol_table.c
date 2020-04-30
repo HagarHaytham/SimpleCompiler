@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "mapp.h"
+#include "symbol_table.h"
 int main(int argc, char **argv)
 {
-    add(1,3);
-    printf("%d\n",val(1));  
+    create_int("hi",1,1,1);
     return 0;
 }
-

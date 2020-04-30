@@ -1,0 +1,14 @@
+
+MOV - 5 x
+MOV - 2 y
+ADD x y z
+MOV - 2.500000 n
+MOV - 15.000000 m
+MOV - - l
+SUB m n l
+SUB x y z
+MOV - - k
+MOV - - j
+MOV x k
+MOV y j
+MOV l tmp
