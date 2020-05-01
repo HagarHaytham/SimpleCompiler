@@ -53,20 +53,20 @@ int_dclr_stmt:
     INTEGER IDENTIFIER SEMICOLON                    {   
                                                         int res=create_int($2,0,0,0); 
                                                       if(res == 0)
-                                                      yyerror("Identifier already exists");
-                                                      print_table();
+                                                      yyerror("IDENTIFIER ALREADY EXISTS");
+                                                      
                                                     }           
     | INTEGER IDENTIFIER EQUAL int_expr SEMICOLON   { 
                                                         int res=create_int($2,1,$4,0);
                                                       if(res == 0)
-                                                      yyerror("Identifier already exists");
-                                                      print_table();
+                                                      yyerror("IDENTIFIER ALREADY EXISTS");
+                                                      
                                                      }
     | INTEGER IDENTIFIER EQUAL id_expr SEMICOLON    { 
                                                       int res=create_int($2,1,$4,1); 
-                                                      print_table();
+                                                      
                                                       if(res == 0)
-                                                      yyerror("Identifier already exists");
+                                                      yyerror("IDENTIFIER ALREADY EXISTS");
                                                      }
     ;
 float_dclr_stmt:
@@ -74,38 +74,38 @@ float_dclr_stmt:
                                                      
                                                     float res = create_float($2,0,0,0);
                                                     if (res == 0)
-                                                        yyerror("Identifier already exists");
+                                                        yyerror("IDENTIFIER ALREADY EXISTS");
                                                     }
     | FLOAT IDENTIFIER EQUAL float_expr SEMICOLON   {
                                                     int res = create_float($2,1,$4,0);
                                                     if (res == 0)
-                                                        yyerror("Identifier already exists");}
+                                                        yyerror("IDENTIFIER ALREADY EXISTS");}
     | FLOAT IDENTIFIER EQUAL id_expr SEMICOLON   {  
                                                     int res = create_float($2,1,$4,1);
                                                     if (res == 0)
                                 
-                                                        yyerror("Identifier already exists");}
+                                                        yyerror("IDENTIFIER ALREADY EXISTS");}
     
     ;
 char_dclr_stmt:
      CHAR IDENTIFIER SEMICOLON                     { 
                                                         int res =create_char($2,0,'0');
                                                         if (res == 0)
-                                                        yyerror("Identifier already exists");}
+                                                        yyerror("IDENTIFIER ALREADY EXISTS");}
     | CHAR IDENTIFIER EQUAL CHAR_VALUE SEMICOLON    { 
                                                         
                                                         int res = create_char($2,1,$4);
                                                         if (res == 0)
-                                                        yyerror("Identifier already exists");}
+                                                        yyerror("IDENTIFIER ALREADY EXISTS");}
     ;
 string_dclr_stmt:
      STRING IDENTIFIER SEMICOLON                       {
                                                         int res =create_string($2,0,"0");
                                                         if (res == 0)
-                                                        yyerror("Identifier already exists");}
+                                                        yyerror("IDENTIFIER ALREADY EXISTS");}
     | STRING IDENTIFIER EQUAL STRING_VALUE SEMICOLON    { int res = create_string($2,1,$4);
                                                         if (res == 0)
-                                                        yyerror("Identifier already exists");}
+                                                        yyerror("IDENTIFIER ALREADY EXISTS");}
 
     ;
 int_assign_stmt:
@@ -113,27 +113,35 @@ int_assign_stmt:
                                                          
                                                         int res = assign_int($1,$3); 
                                                         if (res == 0)
-                                                        yyerror("Undeclared identifier");}
+                                                        yyerror("UNDECLARED IDENTIFIER");
+							if(res == 2)
+							yyerror("TYPE MISMATCH");}
     ;
 float_assign_stmt:
      IDENTIFIER EQUAL float_expr SEMICOLON             {
                                                          int res = assign_float($1,$3);
                                                         if (res == 0)
-                                                        yyerror("Undeclared identifier"); }
+                                                        yyerror("UNDECLARED IDENTIFIER");
+							if(res == 2)
+							yyerror("TYPE MISMATCH"); }
     ;
 char_assign_stmt:
      IDENTIFIER EQUAL CHAR_VALUE SEMICOLON             {
                                                         
                                                         int res = assign_char($1,$3);  
                                                         if (res == 0)
-                                                        yyerror("Undeclared identifier");}
+                                                        yyerror("UNDECLARED IDENTIFIER");
+							if(res == 2)
+							yyerror("TYPE MISMATCH");}
     ;
 string_assign_stmt:
      IDENTIFIER EQUAL STRING_VALUE SEMICOLON           {
                                                         
                                                         int res = assign_string($1,$3); 
                                                         if (res == 0)
-                                                        yyerror("Undeclared identifier");}
+                                                        yyerror("UNDECLARED IDENTIFIER");
+							if(res == 2)
+							yyerror("TYPE MISMATCH");}
     
     ;
 id_assign_stmt:
@@ -200,7 +208,7 @@ void yyerror(char *s) {
     fprintf(stderr, "%s\n",s);
     //removing the quadruples file in case of a syntax error.
     //reMOV("./quad.txt");
-    exit(0);
+    
 }
 void prep_file(char* file_name)
 {
@@ -233,6 +241,7 @@ int main(int argc, char** argv) {
     yyin = FP;
     yyparse();
     fclose(FP);
+	print_table();
     remove("./tmp.txt");
     return 0;
 }

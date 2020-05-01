@@ -1,4 +1,0 @@
-gcc -c mapc.c
-g++ -c mapcpp.cpp
-g++ -o prog mapc.o mapcpp.o
-prog.exe

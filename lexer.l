@@ -11,7 +11,6 @@ float                           return FLOAT;
 char                            return CHAR;
 string                          return STRING;
 [1-9][0-9]*                     {    
-                                        printf("%s\n",yytext); 
                                         yylval.iValue = atoi(yytext);
                                         return INT_VALUE;
                                 }

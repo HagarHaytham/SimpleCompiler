@@ -153,6 +153,8 @@ int assign_int(char* name, int val)
     std::string str = name;
     if(!created[str])
         return 0;
+    if(sym[str].type != INTEGER && sym[str].type != FLOAT)
+	return 2;
     created[str] = 1;
     sym[str].int_value = val;
     sym[str].assigned = 1;
@@ -166,7 +168,9 @@ int assign_float(char* name, float val)
     write_quadruple(name,"\n");
     std::string str = name;
     if(!created[str])
-        return false;
+        return 0;
+    if(sym[str].type != INTEGER && sym[str].type != FLOAT)
+	return 2;
     created[str] = 1;
     sym[str].float_value = val;
     sym[str].assigned = 1;
@@ -183,7 +187,10 @@ int assign_char(char* name, char val)
     write_quadruple(name,"\n");
     std::string str = name;
     if(!created[str])
-        return false;
+        return 0;
+    if(sym[str].type != CHAR)
+	return 2;
+
     sym[str].char_value = val;
     sym[str].assigned = 1;
     return 1;
@@ -198,6 +205,8 @@ int assign_string(char* name, char* val)
     std::string str = name;
     if(!created[str])
         return 0;
+    if(sym[str].type != STRING)
+	return 2;
     sym[str].string_value = val;
     sym[str].assigned = 1;
     return 1;
@@ -317,7 +326,6 @@ void print_table()
         if(it->second.assigned == 0)
         {
             cout<<"NOT ASSIGNED.\n";
-            continue;
         }
         switch(it->second.type)
         {

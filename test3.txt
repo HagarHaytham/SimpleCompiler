@@ -3,12 +3,11 @@ int y = 2 ;
 int z = x + y ;
 float n = 2.5 ;
 float m = 12.5 + 2.5 ;
-float l ;
-l = x - n ;
-z = x - y ;
+float l;
 int k ;
 int j ;
-x = j ;
 k = x ;
-j = y ;
-tmp = l ;
+x = l ;
+l = "omnia" ;
+
+
