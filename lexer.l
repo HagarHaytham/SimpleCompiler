@@ -10,7 +10,7 @@ int                             return INTEGER;
 float                           return FLOAT;
 char                            return CHAR;
 string                          return STRING;
-[1-9][0-9]*                     {    
+[0-9][0-9]*                     {    
                                         yylval.iValue = atoi(yytext);
                                         return INT_VALUE;
                                 }
